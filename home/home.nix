@@ -66,6 +66,41 @@ let
       color: #f5c2e7;
     }
   '';
+  rofiTheme = ''
+    window {
+      background: #1e1e2f;
+      color: #cba6f7;
+      border: { color: #6c71c4; width: 2px; };  
+      radius: 6px;
+      padding: 5px 10px;
+    }
+
+    inputbar {
+      background: #262635;
+      text-color: #89b4fa;
+      cursor: #89b4fa;
+    }
+
+    listview {
+      lines: 10;
+      fixed-height: 0;
+    }
+
+    element {
+      background: transparent;
+      selected {
+        background: #6c71c4;
+        text-color: #1e1e2f;
+      }
+    }
+
+    scrollbar {
+      width: 8px;
+      handle-color: #6c71c4;
+      bar-color: #2a2a3b;
+      radius: 4px;
+    }
+  '';
 in
 {
   # Home Manager version
@@ -80,6 +115,12 @@ in
     fastfetch # For the funny ascii system info in the terminal
     dropbox # Dropbox client
     mako # Notification daemon
+
+    # theming packages
+    adapta-gtk-theme        # GTK theme close to our Waybar/Mako palette
+    qt5.qt5ct               # Qt theme configuration tool
+    qt5.qtstyleplugins      # provide good fallback styles for Qt5
+    kvantum                 # engine for Qt themes (Adapta available)
   ];
 
   # Optional: Configure Dropbox as a systemd user service
@@ -105,6 +146,21 @@ in
       dbaeumer.vscode-eslint
       jnoortheen.nix-ide
     ];
+  };
+
+  # session environment for theming
+  home.sessionVariables = {
+    GTK_THEME = "Adapta-Nokto";           # use dark/purple GTK theme
+    QT_QPA_PLATFORMTHEME = "qt5ct";       # tell Qt to use qt5ct for styling
+  };
+
+  # Qt5 configuration utility
+  programs.qt5ct = {
+    enable = true;
+    settings = {
+      style = "Adapta-Nokto";            # pick the matching style
+      iconTheme = "Papirus";              # optional icon theme
+    };
   };
 
   # Basic Sway configuration
@@ -152,10 +208,10 @@ in
     };
   };
 
-  # Optional: Configure Rofi (basic theme)
+  # Optional: Configure Rofi (custom Avali‑style theme)
   programs.rofi = {
     enable = true;
-    theme = "Arc-Dark";
+    theme = rofiTheme;
   };
 
   # Mako notification theme matching Waybar/Avali UI
