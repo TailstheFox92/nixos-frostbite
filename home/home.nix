@@ -1,5 +1,72 @@
 { config, pkgs, ... }:
 
+let
+  waybarConfig = ''
+    {
+      "layer": "top",
+      "position": "top",
+      "height": 28,
+      "modules-left": ["workspaces"],
+      "modules-center": ["clock"],
+      "modules-right": ["network", "battery", "custom/cpu"],
+      "workspaces": {
+        "disable-scroll": true
+      },
+      "clock": {
+        "format": "{:%Y-%m-%d %H:%M}"
+      },
+      "network": {
+        "format-online": " {essid} ({ip})",
+        "format-offline": " offline"
+      },
+      "battery": {
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-full": ""
+      },
+      "custom/cpu": {
+        "format": "CPU {usage}%",
+        "exec": "grep -m1 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$3+$4)} END {print usage}'"
+      }
+    }
+  '';
+  waybarStyle = ''
+    /* Avali‑style dark purple / blue theme */
+
+    * {
+      font-family: "Roboto Mono", monospace;
+      font-size: 12px;
+      color: #cba6f7;
+      background: #1e1e2f;
+    }
+
+    /* modules panels */
+    #workspaces button,
+    #workspaces button.active {
+      background: transparent;
+      border: 1px solid #6c71c4;
+      padding: 2px 6px;
+      margin: 0 2px;
+      border-radius: 3px;
+    }
+
+    #clock {
+      color: #89b4fa;
+    }
+
+    #network,
+    #battery,
+    #custom-cpu {
+      margin-left: 8px;
+    }
+
+    /* icons */
+    .icon {
+      margin-right: 4px;
+      color: #f5c2e7;
+    }
+  '';
+in
 {
   # Home Manager version
   home.stateVersion = "24.05";
@@ -72,5 +139,13 @@
   programs.rofi = {
     enable = true;
     theme = "Arc-Dark";
+  };
+
+  # Waybar config files
+  home.file.".config/waybar/config" = {
+    text = waybarConfig;
+  };
+  home.file.".config/waybar/style.css" = {
+    text = waybarStyle;
   };
 }
