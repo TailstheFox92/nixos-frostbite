@@ -87,6 +87,7 @@ in
       ms-vscode.cpptools
       esbenp.prettier-vscode
       dbaeumer.vscode-eslint
+      jnoortheen.nix-ide
     ];
   };
 
