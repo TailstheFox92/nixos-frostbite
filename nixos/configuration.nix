@@ -18,7 +18,6 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable sound and graphics
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -34,6 +33,8 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
     shell = pkgs.zsh;  # Optional: Use Zsh or adjust to your preference
   };
+
+  programs.zsh.enable = true;  # Enable Zsh for the user
 
   nixpkgs.config.allowUnfree = true;  # Allow unfree packages (for VSCode, etc.)
 
