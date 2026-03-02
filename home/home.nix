@@ -67,38 +67,51 @@ let
     }
   '';
   rofiTheme = ''
-    window {
+    * {
       background: #1e1e2f;
       color: #cba6f7;
-      border: { color: #6c71c4; width: 2px; };  
-      radius: 6px;
+      font: "Roboto Mono 12";
+      border: 2px solid #6c71c4;
+      border-radius: 6px;
+    }
+
+    window {
+      background-color: #1e1e2f;
+      border: 2px solid #6c71c4;
+      border-radius: 6px;
       padding: 5px 10px;
     }
 
     inputbar {
-      background: #262635;
-      text-color: #89b4fa;
+      background-color: #262635;
+      color: #89b4fa;
       cursor: #89b4fa;
+      border: none;
+      margin-bottom: 8px;
     }
 
     listview {
       lines: 10;
-      fixed-height: 0;
+      fixed-height: false;
+      padding: 4px 0;
     }
 
     element {
-      background: transparent;
-      selected {
-        background: #6c71c4;
-        text-color: #1e1e2f;
-      }
+      background-color: transparent;
+      color: #cba6f7;
+      border-radius: 3px;
+      padding: 2px 8px;
+    }
+    element selected {
+      background-color: #6c71c4;
+      color: #1e1e2f;
     }
 
     scrollbar {
       width: 8px;
       handle-color: #6c71c4;
       bar-color: #2a2a3b;
-      radius: 4px;
+      border-radius: 4px;
     }
   '';
 in
