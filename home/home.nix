@@ -156,7 +156,7 @@ in
   };
 
   # Qt5 configuration utility
-  programs.qt5ct = {
+  qt.qt5ctSettings = {
     enable = true;
     settings = {
       style = "Adapta-Nokto";            # pick the matching style
@@ -216,9 +216,9 @@ in
   };
 
   # Mako notification theme matching Waybar/Avali UI
-  programs.mako = {
+  services.mako = {
     enable = true;
-    theme = ''
+    extraConfig = ''
       * {
         font-family: "Roboto Mono", monospace;
         font-size: 12px;
