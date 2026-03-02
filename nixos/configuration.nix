@@ -32,6 +32,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
     shell = pkgs.zsh;  # Optional: Use Zsh or adjust to your preference
+    initialPassword = "supersecurepassword"; # Set your desired password here (consider using a more secure method for production)
   };
 
   programs.zsh.enable = true;  # Enable Zsh for the user
