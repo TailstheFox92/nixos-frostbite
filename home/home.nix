@@ -115,6 +115,7 @@ in
     fastfetch # For the funny ascii system info in the terminal
     dropbox # Dropbox client
     mako # Notification daemon
+    vencord # Discord client with Vencord mod support
 
     # theming packages
     adapta-gtk-theme        # GTK theme close to our Waybar/Mako palette
