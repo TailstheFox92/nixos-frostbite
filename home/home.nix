@@ -110,7 +110,7 @@ in
   home.packages = with pkgs; [
     rofi  # Application launcher
     thunar  # File manager
-    waterfox-bin  # Web browser (use waterfox-bin for binary package if needed)
+    brave  # Web browser
     alacritty  # Terminal emulator
     fastfetch # For the funny ascii system info in the terminal
     dropbox # Dropbox client
