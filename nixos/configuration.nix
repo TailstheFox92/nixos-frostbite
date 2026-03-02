@@ -2,7 +2,7 @@
 
 {
   imports = [
-    # Include hardware configuration if available, e.g., ./hardware-configuration.nix
+    #./hardware-configuration.nix
   ];
 
   # Bootloader and kernel settings (minimal example)
@@ -71,7 +71,7 @@
 
   # Nix settings
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nix;
     extraOptions = "experimental-features = nix-command flakes";
   };
 
