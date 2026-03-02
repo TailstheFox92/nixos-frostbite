@@ -79,6 +79,7 @@ in
     alacritty  # Terminal emulator
     fastfetch # For the funny ascii system info in the terminal
     dropbox # Dropbox client
+    mako # Notification daemon
   ];
 
   # Optional: Configure Dropbox as a systemd user service
@@ -155,6 +156,41 @@ in
   programs.rofi = {
     enable = true;
     theme = "Arc-Dark";
+  };
+
+  # Mako notification theme matching Waybar/Avali UI
+  programs.mako = {
+    enable = true;
+    theme = ''
+      * {
+        font-family: "Roboto Mono", monospace;
+        font-size: 12px;
+        color: #cba6f7;
+        background-color: #1e1e2f;
+        border: 1px solid #6c71c4;
+        border-radius: 4px;
+        padding: 8px;
+      }
+
+      notification {
+        margin: 4px;
+      }
+
+      .title {
+        font-weight: bold;
+        color: #89b4fa;
+      }
+
+      .body {
+        color: #cba6f7;
+      }
+
+      /* icon color matches bar accent */
+      .icon {
+        margin-right: 6px;
+        color: #f5c2e7;
+      }
+    '';
   };
 
   # Waybar config files
