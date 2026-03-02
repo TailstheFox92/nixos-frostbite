@@ -10,7 +10,18 @@
     thunar  # File manager
     waterfox-bin  # Web browser (use waterfox-bin for binary package if needed)
     alacritty  # Terminal emulator
+    fastfetch # For the funny ascii system info in the terminal
   ];
+
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      ms-python.python
+      ms-vscode.cpptools
+      esbenp.prettier-vscode
+      dbaeumer.vscode-eslint
+    ];
+  };
 
   # Basic Sway configuration
   wayland.windowManager.sway = {

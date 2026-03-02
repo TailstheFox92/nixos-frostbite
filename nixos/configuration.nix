@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib... }:
 
 {
   imports = [
@@ -29,11 +29,13 @@
   };
 
   # User configuration
-  users.users.yourusername = {
+  users.users.qu1ck51lv3r = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
     shell = pkgs.zsh;  # Optional: Use Zsh or adjust to your preference
   };
+
+  nixpkgs.config.allowUnfree = true;  # Allow unfree packages (for VSCode, etc.)
 
   # Enable Sway and Wayland support
   programs.sway = {
