@@ -78,7 +78,22 @@ in
     waterfox-bin  # Web browser (use waterfox-bin for binary package if needed)
     alacritty  # Terminal emulator
     fastfetch # For the funny ascii system info in the terminal
+    dropbox # Dropbox client
   ];
+
+  # Optional: Configure Dropbox as a systemd user service
+  systemd.user.services.dropbox = {
+    Unit = {
+      Description = "Dropbox service";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.dropbox}/bin/dropbox";
+      Restart = "on-failure";
+    };
+  };
 
   programs.vscode = {
     enable = true;
