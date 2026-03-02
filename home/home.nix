@@ -119,9 +119,7 @@ in
 
     # theming packages
     adapta-gtk-theme        # GTK theme close to our Waybar/Mako palette
-    qt5.qt5ct               # Qt theme configuration tool
-    qt5.qtstyleplugins      # provide good fallback styles for Qt5
-    kvantum                 # engine for Qt themes (Adapta available)
+    libsForQt5.qt5ct               # Qt theme configuration tool
   ];
 
   # Optional: Configure Dropbox as a systemd user service
