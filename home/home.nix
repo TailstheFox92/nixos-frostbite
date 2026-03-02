@@ -138,7 +138,7 @@ in
 
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       ms-python.python
       ms-vscode.cpptools
       esbenp.prettier-vscode
@@ -271,7 +271,7 @@ in
       gp = "git push";
       gl = "git pull";
     };
-    initExtra = ''
+    initContent = ''
       # Show system info on terminal open
       fastfetch
 

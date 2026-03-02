@@ -18,7 +18,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable sound and graphics
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -51,18 +51,16 @@
   };
 
   # Display manager (GDM for Wayland/Sway support)
-  services.xserver = {
+  services.displayManager.gdm = {
     enable = true;
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
+    wayland = true;
   };
 
   # Fonts (basic set for better UI)
   fonts.packages = with pkgs; [
     font-awesome
-    nerdfonts
+    nerd-fonts.jetbrains-mono
+    noto-fonts
   ];
 
   # System packages (minimal; most user apps via Home Manager)

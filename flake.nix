@@ -13,6 +13,9 @@
     };
   };
 
+  # nixos-generators is deprecated; use upstreamed image builder if on NixOS 25.05+
+  # Remove nixos-generators from inputs if you upgrade
+
   outputs = { self, nixpkgs, home-manager, nixos-generators, ... }@inputs: {
     nixosConfigurations = {
       Frostbite = nixpkgs.lib.nixosSystem {
@@ -30,6 +33,7 @@
       };
     };
 
+    # DEPRECATED: nixos-generators. Use upstreamed image builder in nixpkgs for 25.05+
     packages = {
       x86_64-linux.iso = nixos-generators.nixosGenerate {
         inherit (nixpkgs) lib;
@@ -48,7 +52,9 @@
             systemd.services.auto-install = {
               description = "Auto-install Frostbite to /dev/sda";
               wantedBy = [ "multi-user.target" ];
+              # Consider adding 'network-online.target' to 'after' and 'requires' for correct ordering
               after = [ "network-online.target" ];
+              requires = [ "network-online.target" ];
               serviceConfig = {
                 Type = "oneshot";
                 RemainAfterExit = true;
