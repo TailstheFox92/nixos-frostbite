@@ -64,8 +64,12 @@
   ];
 
   # System packages (minimal; most user apps via Home Manager)
+  # Add terminal and launcher to live environment for Calamares
   environment.systemPackages = with pkgs; [
-    git  # For managing your config repository
+    git # For managing your config repository
+    foot  # Terminal emulator for live environment
+    rofi       # Application launcher for live environment
+    calamares  # Ensure Calamares is available in $PATH
   ];
 
   # Nix settings
