@@ -43,21 +43,10 @@
     enable = true;
     wrapperFeatures.gtk = true;  # Enable GTK theme support
     extraPackages = with pkgs; [
-      swaylock  # For screen locking
-      swayidle  # For idle management
-      wl-clipboard  # Wayland clipboard utilities
-      waybar  # Optional status bar (configurable in Home Manager)
+      swaylock
+      swayidle
+      wl-clipboard
     ];
-    extraConfig = ''
-      # Keybindings for live environment
-      bindsym Mod4+Return exec foot
-      bindsym Mod4+d exec rofi -show drun
-      bindsym Mod4+e exec thunar
-      bindsym Mod4+w exec waterfox
-      bindsym Mod4+Shift+q kill
-      default_border pixel 2
-      gaps inner 5
-    '';
   };
 
   # Display manager (GDM for Wayland/Sway support)

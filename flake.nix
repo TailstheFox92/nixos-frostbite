@@ -25,10 +25,10 @@
           }
           # Add the graphical ISO module for isoImage support
           { imports = [ "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix" ]; }
-          # Auto-install configuration for unattended installation
+          # Manual text-based installer service for Frostbite
           ({ config, pkgs, ... }: {
-            systemd.services.auto-install = {
-              description = "Auto-install Frostbite to /dev/sda";
+            systemd.services.manual-install = {
+              description = "Manual text-based NixOS install for Frostbite";
               wantedBy = [ "multi-user.target" ];
               after = [ "network-online.target" ];
               requires = [ "network-online.target" ];
@@ -40,45 +40,23 @@
               };
               path = with pkgs; [ util-linux e2fsprogs dosfstools parted ];
               script = ''
-                set -e
-                TARGET_DISK="/dev/sda"
-                EFI_SIZE="1G"
-                echo "[*] Starting Frostbite auto-installation to $TARGET_DISK"
-                # Check if disk exists
-                if [ ! -e "$TARGET_DISK" ]; then
-                  echo "[!] Error: $TARGET_DISK not found" >&2
-                  exit 1
-                fi
-                # Wipe partition table
-                echo "[*] Wiping disk and creating GPT partition table..."
-                parted -s "$TARGET_DISK" mklabel gpt
-                # Create EFI partition (1GB)
-                echo "[*] Creating 1GB EFI partition..."
-                parted -s "$TARGET_DISK" mkpart ESP fat32 1MiB $EFI_SIZE
-                parted -s "$TARGET_DISK" set 1 esp on
-                # Create root partition (rest of disk)
-                echo "[*] Creating root partition with remaining space..."
-                parted -s "$TARGET_DISK" mkpart primary ext4 $EFI_SIZE 100%
-                # Wait for device nodes
-                sleep 2
-                udevadm settle
-                # Format partitions
-                echo "[*] Formatting EFI partition..."
-                mkfs.fat -F 32 "$TARGET_DISK"1
-                echo "[*] Formatting root partition..."
-                mkfs.ext4 -F "$TARGET_DISK"2
-                # Mount filesystems
-                echo "[*] Mounting filesystems..."
-                mkdir -p /mnt /mnt/boot
-                mount "$TARGET_DISK"2 /mnt
-                mount "$TARGET_DISK"1 /mnt/boot
-                # Run NixOS installation
-                echo "[*] Running nixos-install..."
-                nixos-install --flake /etc/nixos#Frostbite --no-root-password
-                echo "[*] Installation complete!"
-                echo "[*] Rebooting in 10 seconds..."
-                sleep 10
-                reboot
+                echo "\n[*] Welcome to the Frostbite manual installer!"
+                echo "[*] To install, run the following commands as root:"
+                echo ""
+                echo "  parted /dev/sda mklabel gpt"
+                echo "  parted /dev/sda mkpart ESP fat32 1MiB 1GiB"
+                echo "  parted /dev/sda set 1 esp on"
+                echo "  parted /dev/sda mkpart primary ext4 1GiB 100%"
+                echo "  mkfs.fat -F 32 /dev/sda1"
+                echo "  mkfs.ext4 -F /dev/sda2"
+                echo "  mount /dev/sda2 /mnt"
+                echo "  mkdir -p /mnt/boot"
+                echo "  mount /dev/sda1 /mnt/boot"
+                echo "  nixos-install --flake /etc/nixos#Frostbite --no-root-password"
+                echo ""
+                echo "[*] After install, reboot manually."
+                echo "[*] You can edit /etc/nixos/configuration.nix before running nixos-install if needed."
+                echo "[*] For help, see: https://nixos.org/manual"
               '';
             };
           })
