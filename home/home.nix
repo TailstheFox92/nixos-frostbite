@@ -188,7 +188,7 @@ in
         "${modifier}+Return" = "exec ${terminal}";
         "${modifier}+d" = "exec ${menu}";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
-        "${modifier}+w" = "exec waterfox";  # Launch Waterfox
+        "${modifier}+w" = "exec brave";  # Launch Brave
         "${modifier}+Shift+q" = "kill";  # Close window
       };
 
