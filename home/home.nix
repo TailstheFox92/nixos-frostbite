@@ -64,7 +64,7 @@ let
     /* Avali‑style dark purple / blue theme */
 
     * {
-      font-family: "Roboto Mono", monospace;
+      font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
       font-size: 12px;
       color: #cba6f7;
       background: #1e1e2f;
@@ -104,7 +104,7 @@ let
     * {
       background-color: #1e1e2f;
       text-color: #cba6f7;
-      font: "Roboto Mono 12";
+      font: "JetBrainsMono Nerd Font 12";
       border: 2px;
       border-color: #6c71c4;
       border-radius: 6px;
@@ -199,13 +199,20 @@ in
 
   programs.vscode = {
     enable = true;
-    profiles.default.extensions = with pkgs.vscode-extensions; [
-      ms-python.python
-      ms-vscode.cpptools
-      esbenp.prettier-vscode
-      dbaeumer.vscode-eslint
-      jnoortheen.nix-ide
-    ];
+    profiles.default = {
+      extensions = with pkgs.vscode-extensions; [
+        ms-python.python
+        ms-vscode.cpptools
+        esbenp.prettier-vscode
+        dbaeumer.vscode-eslint
+        jnoortheen.nix-ide
+        vscodevim.vim
+      ];
+      userSettings = {
+        "editor.fontFamily" = "JetBrainsMono Nerd Font, 'Droid Sans Mono', monospace";
+        "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
+      };
+    };
   };
 
   # session environment for theming
@@ -279,7 +286,7 @@ in
     enable = true;
     extraConfig = ''
       * {
-        font-family: "Roboto Mono", monospace;
+        font-family: "JetBrainsMono Nerd Font", monospace;
         font-size: 12px;
         color: #cba6f7;
         background-color: #1e1e2f;
