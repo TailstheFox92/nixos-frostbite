@@ -66,53 +66,67 @@ let
       color: #f5c2e7;
     }
   '';
-  rofiTheme = ''
+  rofiTheme = builtins.toFile "rofi-theme.rasi" ''
     * {
-      background: #1e1e2f;
-      color: #cba6f7;
+      background-color: #1e1e2f;
+      text-color: #cba6f7;
       font: "Roboto Mono 12";
-      border: 2px solid #6c71c4;
+      border: 2px;
+      border-color: #6c71c4;
       border-radius: 6px;
     }
 
     window {
       background-color: #1e1e2f;
-      border: 2px solid #6c71c4;
+      border: 2px;
+      border-color: #6c71c4;
       border-radius: 6px;
-      padding: 5px 10px;
+      padding: 5px;
     }
 
     inputbar {
       background-color: #262635;
-      color: #89b4fa;
+      text-color: #89b4fa;
       cursor: #89b4fa;
-      border: none;
-      margin-bottom: 8px;
+      border: 0px;
+      padding: 8px;
     }
 
     listview {
       lines: 10;
       fixed-height: false;
-      padding: 4px 0;
+      spacing: 4px;
     }
 
     element {
       background-color: transparent;
-      color: #cba6f7;
+      text-color: #cba6f7;
       border-radius: 3px;
-      padding: 2px 8px;
+      padding: 2px;
     }
     element selected {
       background-color: #6c71c4;
-      color: #1e1e2f;
+      text-color: #1e1e2f;
     }
 
     scrollbar {
       width: 8px;
       handle-color: #6c71c4;
-      bar-color: #2a2a3b;
-      border-radius: 4px;
     }
+  '';
+  rofiDebugLauncher = pkgs.writeShellScriptBin "rofi-debug-launcher" ''
+    #!/usr/bin/env sh
+    log_dir="$HOME/.local/state/rofi"
+    log_file="$log_dir/launcher.log"
+
+    mkdir -p "$log_dir"
+    {
+      printf '\n[%s] Launching rofi\n' "$(date -Is)"
+      rofi -show drun "$@"
+      status=$?
+      printf '[%s] Exit code: %s\n' "$(date -Is)" "$status"
+      exit "$status"
+    } >>"$log_file" 2>&1
   '';
 in
 {
@@ -181,7 +195,7 @@ in
     config = rec {
       modifier = "Mod4";  # Super key
       terminal = "alacritty";
-      menu = "rofi -show drun";  # Use Rofi as app launcher
+      menu = "${rofiDebugLauncher}/bin/rofi-debug-launcher";  # Use Rofi launcher with debug logging
 
       # Keybindings (basic examples)
       keybindings = pkgs.lib.mkOptionDefault {
