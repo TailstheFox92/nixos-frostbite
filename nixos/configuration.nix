@@ -8,6 +8,8 @@
   # Bootloader and kernel settings (minimal example)
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.blacklistedKernelModules = [ "elan_i2c" ];
+  boot.kernelModules = [ "i2c_hid_acpi" "hid_multitouch" ];
 
   # Networking (enable as needed)
   networking.hostName = "Frostbite";
