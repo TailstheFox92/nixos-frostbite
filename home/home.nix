@@ -1,32 +1,62 @@
 { config, pkgs, ... }:
 
 let
+  waybarWeather = pkgs.writeShellScriptBin "waybar-weather" ''
+    weather="$(${pkgs.curl}/bin/curl -s --max-time 5 'https://wttr.in/?format=%c+%t')"
+    if [ -n "$weather" ]; then
+      echo " $weather"
+    else
+      echo " n/a"
+    fi
+  '';
   waybarConfig = ''
     {
       "layer": "top",
       "position": "top",
       "height": 28,
-      "modules-left": ["workspaces"],
+      "modules-left": ["sway/workspaces"],
       "modules-center": ["clock"],
-      "modules-right": ["network", "battery", "custom/cpu"],
-      "workspaces": {
-        "disable-scroll": true
+      "modules-right": ["custom/weather", "cpu", "memory", "temperature", "network", "battery", "tray"],
+      "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+      },
+      "custom/weather": {
+        "format": "{}",
+        "interval": 600,
+        "exec": "${waybarWeather}/bin/waybar-weather",
+        "tooltip": false
+      },
+      "cpu": {
+        "format": " {usage}%",
+        "interval": 2
+      },
+      "memory": {
+        "format": " {}%",
+        "interval": 2
+      },
+      "temperature": {
+        "critical-threshold": 85,
+        "format": " {temperatureC}°C",
+        "format-critical": " {temperatureC}°C"
       },
       "clock": {
         "format": "{:%Y-%m-%d %H:%M}"
       },
       "network": {
-        "format-online": " {essid} ({ip})",
-        "format-offline": " offline"
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ifname}",
+        "format-disconnected": " offline"
       },
       "battery": {
-        "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-full": ""
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-full": " {capacity}%",
+        "format-icons": ["", "", "", "", ""]
       },
-      "custom/cpu": {
-        "format": "CPU {usage}%",
-        "exec": "grep -m1 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$3+$4)} END {print usage}'"
+      "tray": {
+        "spacing": 8
       }
     }
   '';
@@ -54,9 +84,13 @@ let
       color: #89b4fa;
     }
 
+    #custom-weather,
+    #cpu,
+    #memory,
+    #temperature,
     #network,
     #battery,
-    #custom-cpu {
+    #tray {
       margin-left: 8px;
     }
 
