@@ -180,8 +180,30 @@ in
 
     # theming packages
     adapta-gtk-theme        # GTK theme close to our Waybar/Mako palette
+    papirus-icon-theme
+    bibata-cursors
     libsForQt5.qt5ct               # Qt theme configuration tool
   ];
+
+  gtk = {
+    enable = true;
+    theme = {
+      package = pkgs.adapta-gtk-theme;
+      name = "Adapta-Nokto";
+    };
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
+    };
+  };
+
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 24;
+  };
 
   # Optional: Configure Dropbox as a systemd user service
   systemd.user.services.dropbox = {
@@ -219,6 +241,8 @@ in
   home.sessionVariables = {
     GTK_THEME = "Adapta-Nokto";           # use dark/purple GTK theme
     QT_QPA_PLATFORMTHEME = "qt5ct";       # tell Qt to use qt5ct for styling
+    XCURSOR_THEME = "Bibata-Modern-Ice";
+    XCURSOR_SIZE = "24";
   };
 
   # Qt5 configuration utility
@@ -226,7 +250,7 @@ in
     enable = true;
     settings = {
       style = "Adapta-Nokto";            # pick the matching style
-      iconTheme = "Papirus";              # optional icon theme
+      iconTheme = "Papirus-Dark";
     };
   };
 
