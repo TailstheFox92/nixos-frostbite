@@ -37,6 +37,7 @@
   };
 
   programs.zsh.enable = true;  # Enable Zsh for the user
+  programs.firefox.enable = false;
 
   nixpkgs.config.allowUnfree = true;  # Allow unfree packages (for VSCode, etc.)
 

@@ -167,6 +167,22 @@ in
   # Home Manager version
   home.stateVersion = "24.05";
 
+  # Ensure Firefox is never enabled via Home Manager
+  programs.firefox.enable = false;
+
+  # Force Brave as default browser for links and HTML content
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "application/xhtml+xml" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "x-scheme-handler/http" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "x-scheme-handler/https" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "x-scheme-handler/about" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "x-scheme-handler/unknown" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+    };
+  };
+
   # Install user packages
   home.packages = with pkgs; [
     rofi  # Application launcher
@@ -244,6 +260,7 @@ in
 
   # session environment for theming
   home.sessionVariables = {
+    BROWSER = "brave";
     GTK_THEME = "gruvbox-dark";
     QT_QPA_PLATFORMTHEME = "qt5ct";       # tell Qt to use qt5ct for styling
     QT_STYLE_OVERRIDE = "kvantum";
