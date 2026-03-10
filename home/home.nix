@@ -259,13 +259,25 @@ let
     }
 
     /* modules panels */
-    #workspaces button,
-    #workspaces button.active {
+    #workspaces button {
       background: transparent;
       border: 1px solid #d65d0e;
       padding: 2px 6px;
       margin: 0 2px;
       border-radius: 3px;
+    }
+
+    #workspaces button.focused,
+    #workspaces button.active {
+      background: #3c3836;
+      border-color: #fabd2f;
+      color: #fabd2f;
+    }
+
+    #workspaces button.urgent {
+      background: #fb4934;
+      border-color: #fb4934;
+      color: #282828;
     }
 
     #clock {
@@ -291,6 +303,8 @@ let
 
     #taskbar button.active {
       background: #3c3836;
+      border-color: #fabd2f;
+      color: #fabd2f;
     }
 
     #custom-weather {
