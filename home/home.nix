@@ -621,7 +621,7 @@ in
         "${modifier}+Shift+d" = "exec vesktop";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
         "${modifier}+w" = "exec brave";  # Launch Brave
-        "${modifier}+b" = "exec blueman-manager";  # Launch Blueman Manager
+        "${modifier}+Shift+b" = "exec blueman-manager";  # Launch Blueman Manager
         "XF86AudioRaiseVolume" = "exec ${volumeUpNotify}/bin/volume-up-notify";
         "XF86AudioLowerVolume" = "exec ${volumeDownNotify}/bin/volume-down-notify";
         "XF86AudioMute" = "exec ${volumeMuteToggleNotify}/bin/volume-mute-toggle-notify";
@@ -665,6 +665,10 @@ in
       # Additional Sway config options here
       default_border pixel 2
       gaps inner 5
+      client.focused #d65d0e #d65d0e #282828 #fe8019 #d65d0e
+      client.focused_inactive #504945 #504945 #ebdbb2 #7c6f64 #504945
+      client.unfocused #3c3836 #3c3836 #a89984 #665c54 #3c3836
+      client.urgent #fb4934 #fb4934 #282828 #fb4934 #fb4934
       assign [app_id="code"] workspace number 1
       assign [class="Code"] workspace number 1
       assign [app_id="brave-browser"] workspace number 2
