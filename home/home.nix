@@ -54,6 +54,50 @@ let
       echo " n/a"
     fi
   '';
+  volumeUpNotify = pkgs.writeShellScriptBin "volume-up-notify" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    ${pkgs.pamixer}/bin/pamixer -i 5
+    volume="$(${pkgs.pamixer}/bin/pamixer --get-volume-human)"
+    ${pkgs.libnotify}/bin/notify-send -a "Volume" -u low -t 1200 "Volume" "$volume"
+  '';
+  volumeDownNotify = pkgs.writeShellScriptBin "volume-down-notify" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    ${pkgs.pamixer}/bin/pamixer -d 5
+    volume="$(${pkgs.pamixer}/bin/pamixer --get-volume-human)"
+    ${pkgs.libnotify}/bin/notify-send -a "Volume" -u low -t 1200 "Volume" "$volume"
+  '';
+  volumeMuteToggleNotify = pkgs.writeShellScriptBin "volume-mute-toggle-notify" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    ${pkgs.pamixer}/bin/pamixer -t
+    if ${pkgs.pamixer}/bin/pamixer --get-mute; then
+      message="Muted"
+    else
+      message="$(${pkgs.pamixer}/bin/pamixer --get-volume-human)"
+    fi
+    ${pkgs.libnotify}/bin/notify-send -a "Volume" -u low -t 1200 "Volume" "$message"
+  '';
+  brightnessUpNotify = pkgs.writeShellScriptBin "brightness-up-notify" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    ${pkgs.brightnessctl}/bin/brightnessctl set +5% >/dev/null
+    percent="$(${pkgs.brightnessctl}/bin/brightnessctl -m | ${pkgs.gawk}/bin/awk -F, '{print $4}')"
+    ${pkgs.libnotify}/bin/notify-send -a "Brightness" -u low -t 1200 "Brightness" "$percent"
+  '';
+  brightnessDownNotify = pkgs.writeShellScriptBin "brightness-down-notify" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    ${pkgs.brightnessctl}/bin/brightnessctl set 5%- >/dev/null
+    percent="$(${pkgs.brightnessctl}/bin/brightnessctl -m | ${pkgs.gawk}/bin/awk -F, '{print $4}')"
+    ${pkgs.libnotify}/bin/notify-send -a "Brightness" -u low -t 1200 "Brightness" "$percent"
+  '';
   waybarConfig = ''
     {
       "layer": "top",
@@ -61,7 +105,7 @@ let
       "height": 28,
       "modules-left": ["sway/workspaces"],
       "modules-center": ["clock"],
-      "modules-right": ["custom/weather", "cpu", "memory", "temperature", "network", "battery", "tray"],
+      "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "network", "battery", "tray"],
       "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -93,6 +137,14 @@ let
         "format-wifi": " {essid}",
         "format-ethernet": " {ifname}",
         "format-disconnected": " offline"
+      },
+      "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": "󰖁 muted",
+        "on-click": "pavucontrol"
+      },
+      "backlight": {
+        "format": " {percent}%"
       },
       "battery": {
         "format": "{icon} {capacity}%",
@@ -130,6 +182,8 @@ let
     }
 
     #custom-weather,
+    #pulseaudio,
+    #backlight,
     #cpu,
     #memory,
     #temperature,
@@ -243,6 +297,8 @@ in
     swappy
     wl-clipboard
     libnotify
+    pavucontrol
+
 
     # theming packages
     gruvbox-dark-gtk
@@ -348,6 +404,16 @@ in
         "${modifier}+d" = "exec ${menu}";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
         "${modifier}+w" = "exec brave";  # Launch Brave
+        "XF86AudioRaiseVolume" = "exec ${volumeUpNotify}/bin/volume-up-notify";
+        "XF86AudioLowerVolume" = "exec ${volumeDownNotify}/bin/volume-down-notify";
+        "XF86AudioMute" = "exec ${volumeMuteToggleNotify}/bin/volume-mute-toggle-notify";
+        "XF86AudioMicMute" = "exec ${pkgs.pamixer}/bin/pamixer --default-source -t";
+        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        "XF86AudioPause" = "exec ${pkgs.playerctl}/bin/playerctl pause";
+        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+        "XF86MonBrightnessUp" = "exec ${brightnessUpNotify}/bin/brightness-up-notify";
+        "XF86MonBrightnessDown" = "exec ${brightnessDownNotify}/bin/brightness-down-notify";
         "Print" = "exec ${screenshotFull}/bin/screenshot-full";
         "Shift+Print" = "exec ${screenshotRegion}/bin/screenshot-region";
         "Ctrl+Print" = "exec ${screenshotRegionEdit}/bin/screenshot-region-edit";
@@ -358,6 +424,13 @@ in
       bars = [{
         command = "${pkgs.waybar}/bin/waybar";
       }];
+
+      startup = [
+        {
+          command = "${pkgs.mako}/bin/mako";
+          always = true;
+        }
+      ];
 
       # Input/output settings (adjust for your hardware)
       input = {
@@ -396,34 +469,15 @@ in
   services.mako = {
     enable = true;
     extraConfig = ''
-      * {
-        font-family: "JetBrainsMono Nerd Font", monospace;
-        font-size: 12px;
-        color: #ebdbb2;
-        background-color: #282828;
-        border: 1px solid #d65d0e;
-        border-radius: 4px;
-        padding: 8px;
-      }
-
-      notification {
-        margin: 4px;
-      }
-
-      .title {
-        font-weight: bold;
-        color: #fabd2f;
-      }
-
-      .body {
-        color: #ebdbb2;
-      }
-
-      /* icon color matches bar accent */
-      .icon {
-        margin-right: 6px;
-        color: #fe8019;
-      }
+      font=JetBrainsMono Nerd Font 12
+      background-color=#282828
+      text-color=#ebdbb2
+      border-color=#d65d0e
+      border-size=1
+      border-radius=4
+      padding=8
+      margin=4
+      default-timeout=2000
     '';
   };
 
