@@ -1,6 +1,11 @@
 { pkgs, lib, ... }:
 
 let
+  dotnetCombined = pkgs.dotnetCorePackages.combinePackages [
+    pkgs.dotnetCorePackages.sdk_8_0
+    pkgs.dotnetCorePackages.sdk_10_0
+  ];
+
   vscodeRasi = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       name = "rasi";
@@ -38,14 +43,16 @@ in
   "editor.fontFamily": "JetBrainsMono Nerd Font, Droid Sans Mono, monospace",
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
   "workbench.colorTheme": "Gruvbox Dark Medium",
+  "dotnet.server.useOmnisharp": true,
+  "omnisharp.dotnetPath": "${dotnetCombined}/bin",
   "dotnetAcquisitionExtension.existingDotnetPath": [
     {
       "extensionId": "ms-dotnettools.csharp",
-      "path": "${pkgs.dotnet-sdk}/bin/dotnet"
+      "path": "${dotnetCombined}/bin/dotnet"
     },
     {
       "extensionId": "ms-dotnettools.csdevkit",
-      "path": "${pkgs.dotnet-sdk}/bin/dotnet"
+      "path": "${dotnetCombined}/bin/dotnet"
     }
   ]
 }

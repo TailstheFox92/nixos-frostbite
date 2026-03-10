@@ -85,8 +85,10 @@
     blueman
 
     # C# / .NET development tools
-    dotnet-sdk
-    dotnet-runtime
+    (dotnetCorePackages.combinePackages [
+      dotnetCorePackages.sdk_8_0
+      dotnetCorePackages.sdk_10_0
+    ])
     icu
     nuget
     ilspycmd
