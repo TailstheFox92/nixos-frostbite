@@ -72,6 +72,8 @@
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
     alacritty  # Terminal emulator
+    mousepad  # Lightweight GUI text editor
+    neovim  # Terminal-based text editor
     fastfetch # For the funny ascii system info in the terminal
     dropbox # Dropbox client
     swaynotificationcenter # Notification daemon + control center
@@ -144,6 +146,9 @@
   home.sessionVariables = {
     BROWSER = "brave";
     TERMINAL = "alacritty";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    GIT_EDITOR = "nvim";
     FILE_MANAGER = "thunar";
     GTK_THEME = "gruvbox-dark";
     QT_QPA_PLATFORMTHEME = "qt5ct";       # tell Qt to use qt5ct for styling

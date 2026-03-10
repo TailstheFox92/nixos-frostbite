@@ -20,6 +20,11 @@
       # Show system info on terminal open
       fastfetch
 
+      # Default terminal editor
+      export EDITOR=nvim
+      export VISUAL=nvim
+      export GIT_EDITOR=nvim
+
       # Set a nice prompt
       PROMPT='%F{cyan}%n@%m%f %F{yellow}%~%f %# '
 
