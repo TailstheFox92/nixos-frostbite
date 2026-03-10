@@ -32,7 +32,7 @@ in
     mkdir -p "$code_user_dir"
     cat > "$code_user_dir/settings.json" <<'EOF'
 {
-  "editor.fontFamily": "JetBrainsMono Nerd Font, Font Awesome 6 Free, Font Awesome 6 Brands, Droid Sans Mono, monospace",
+  "editor.fontFamily": "JetBrainsMono Nerd Font, Droid Sans Mono, monospace",
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
   "workbench.colorTheme": "Gruvbox Dark Medium"
 }
