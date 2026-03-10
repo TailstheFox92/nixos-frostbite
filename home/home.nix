@@ -47,12 +47,40 @@ let
     ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
   '';
   waybarWeather = pkgs.writeShellScriptBin "waybar-weather" ''
-    weather="$(${pkgs.curl}/bin/curl -s --max-time 5 'https://wttr.in/?format=%c+%t')"
+    weather="$(${pkgs.curl}/bin/curl -fsS --max-time 6 'https://wttr.in/?format=%c+%f' 2>/dev/null || true)"
     if [ -n "$weather" ]; then
       echo " $weather"
-    else
-      echo " n/a"
+      exit 0
     fi
+
+    geo="$(${pkgs.curl}/bin/curl -fsS --max-time 6 'https://ipapi.co/json/' 2>/dev/null || true)"
+    lat="$(printf '%s' "$geo" | ${pkgs.jq}/bin/jq -r '.latitude // empty')"
+    lon="$(printf '%s' "$geo" | ${pkgs.jq}/bin/jq -r '.longitude // empty')"
+
+    if [ -n "$lat" ] && [ -n "$lon" ]; then
+      met="$(${pkgs.curl}/bin/curl -fsS --max-time 10 -A 'waybar-weather/1.0 (nixos-frostbite)' "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=$lat&lon=$lon" 2>/dev/null || true)"
+      if [ -n "$met" ]; then
+        temp="$(printf '%s' "$met" | ${pkgs.jq}/bin/jq -r '.properties.timeseries[0].data.instant.details.air_temperature // empty')"
+        symbol="$(printf '%s' "$met" | ${pkgs.jq}/bin/jq -r '.properties.timeseries[0].data.next_1_hours.summary.symbol_code // .properties.timeseries[0].data.next_6_hours.summary.symbol_code // empty')"
+
+        if [ -n "$temp" ]; then
+          temp_round="$(printf '%s\n' "$temp" | ${pkgs.gawk}/bin/awk '{printf "%.0f", (($1 * 9) / 5) + 32}')"
+          icon=""
+          case "$symbol" in
+            *clearsky*|*fair*) icon="" ;;
+            *partlycloudy*) icon="" ;;
+            *cloudy*) icon="" ;;
+            *rain*|*drizzle*) icon="󰖖" ;;
+            *sleet*|*snow*) icon="" ;;
+            *thunder*) icon="" ;;
+          esac
+          echo "$icon ''${temp_round}°F"
+          exit 0
+        fi
+      fi
+    fi
+
+    echo " n/a"
   '';
   volumeUpNotify = pkgs.writeShellScriptBin "volume-up-notify" ''
     #!/usr/bin/env sh
@@ -128,8 +156,8 @@ let
         },
         "temperature": {
           "critical-threshold": 85,
-          "format": " {temperatureC}°C",
-          "format-critical": " {temperatureC}°C"
+          "format": " {temperatureF}°F",
+          "format-critical": " {temperatureF}°F"
         },
         "clock": {
           "format": "{:%Y-%m-%d %H:%M}"
