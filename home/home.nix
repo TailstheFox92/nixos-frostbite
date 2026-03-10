@@ -48,6 +48,11 @@
     pavucontrol
     blueman
 
+    # C# / .NET development tools
+    dotnet-sdk
+    dotnet-runtime
+    nuget
+
 
     # theming packages
     gruvbox-dark-gtk

@@ -18,6 +18,10 @@ in
       extensions = with pkgs.vscode-extensions; [
         ms-python.python
         ms-vscode.cpptools
+        ms-dotnettools.csharp
+        ms-dotnettools.csdevkit
+        ms-dotnettools.vscode-dotnet-runtime
+        ms-dotnettools.vscodeintellicode-csharp
         esbenp.prettier-vscode
         dbaeumer.vscode-eslint
         jnoortheen.nix-ide
