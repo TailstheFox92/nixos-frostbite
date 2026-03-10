@@ -13,6 +13,35 @@
   # Ensure Firefox is never enabled via Home Manager
   programs.firefox.enable = false;
 
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+    };
+  };
+
+  programs.git = {
+    enable = true;
+  };
+
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+    matchBlocks."github.com" = {
+      hostname = "github.com";
+      user = "git";
+      identitiesOnly = true;
+      identityFile = [ "~/.ssh/id_ed25519" ];
+    };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    defaultCacheTtl = 1800;
+    maxCacheTtl = 7200;
+  };
+
   # Force Brave as default browser for links and HTML content
   xdg.mimeApps = {
     enable = true;
