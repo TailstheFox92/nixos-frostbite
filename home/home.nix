@@ -138,7 +138,7 @@ let
         "position": "top",
         "height": 28,
         "modules-left": ["sway/workspaces"],
-        "modules-center": ["clock"],
+        "modules-center": ["custom/notification", "clock"],
         "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "bluetooth", "network", "battery", "tray", "custom/power"],
         "sway/workspaces": {
           "disable-scroll": true,
@@ -159,6 +159,25 @@ let
           "interval": 600,
           "exec": "${waybarWeather}/bin/waybar-weather",
           "tooltip": false
+        },
+        "custom/notification": {
+          "tooltip": false,
+          "format": "{icon}",
+          "return-type": "json",
+          "exec": "swaync-client -swb",
+          "on-click": "swaync-client -t -sw",
+          "on-click-right": "swaync-client -d -sw",
+          "escape": true,
+          "format-icons": {
+            "none": "",
+            "notification": "",
+            "dnd-none": "",
+            "dnd-notification": "",
+            "inhibited-none": "",
+            "inhibited-notification": "",
+            "dnd-inhibited-none": "",
+            "dnd-inhibited-notification": ""
+          }
         },
         "custom/power": {
           "format": "⏻",
@@ -324,6 +343,11 @@ let
       color: #ebdbb2;
     }
 
+    #custom-notification {
+      margin-right: 8px;
+      color: #fe8019;
+    }
+
     #custom-power {
       margin-left: 8px;
       margin-right: 8px;
@@ -459,7 +483,7 @@ in
     alacritty  # Terminal emulator
     fastfetch # For the funny ascii system info in the terminal
     dropbox # Dropbox client
-    mako # Notification daemon
+    swaynotificationcenter # Notification daemon + control center
     vesktop # Discord client with Vencord pre-applied
     grim
     slurp
@@ -620,10 +644,6 @@ in
 
       startup = [
         {
-          command = "${pkgs.mako}/bin/mako";
-          always = true;
-        }
-        {
           command = "${pkgs.swaybg}/bin/swaybg -i ${wallpaperPath} -m fill";
           always = true;
         }
@@ -683,20 +703,90 @@ in
     };
   };
 
-  # Mako notification theme matching Waybar/Avali UI
-  services.mako = {
+  # SwayNC notification center themed to match Waybar/Avali UI
+  services.swaync = {
     enable = true;
-    extraConfig = ''
-      font=JetBrainsMono Nerd Font 12
-      background-color=#282828
-      text-color=#ebdbb2
-      border-color=#d65d0e
-      border-size=1
-      border-radius=4
-      padding=8
-      margin=4
-      default-timeout=2000
- "   '';
+    settings = {
+      positionX = "right";
+      positionY = "top";
+      layer = "overlay";
+      "control-center-layer" = "top";
+      "control-center-width" = 420;
+      "control-center-height" = 720;
+      "notification-window-width" = 420;
+      "notification-icon-size" = 48;
+      timeout = 6;
+      "timeout-low" = 3;
+      "timeout-critical" = 0;
+      "fit-to-screen" = true;
+      "cssPriority" = "application";
+    };
+    style = ''
+      * {
+        font-family: "JetBrainsMono Nerd Font";
+        font-size: 12px;
+      }
+
+      .notification-row,
+      .notification-group,
+      .control-center .notification-row {
+        margin: 4px 8px;
+      }
+
+      .notification,
+      .notification-content,
+      .control-center,
+      .widget-title,
+      .widget-dnd,
+      .widget-buttons-grid > flowbox > flowboxchild > button {
+        background: #282828;
+        color: #ebdbb2;
+        border: 1px solid #d65d0e;
+        border-radius: 4px;
+      }
+
+      .control-center {
+        padding: 8px;
+      }
+
+      .notification {
+        padding: 6px;
+      }
+
+      .notification .summary,
+      .notification .time,
+      .notification .body,
+      .widget-title > label {
+        color: #ebdbb2;
+      }
+
+      .notification.critical,
+      .notification.critical .notification-content {
+        border-color: #fb4934;
+      }
+
+      .close-button {
+        background: #3c3836;
+        color: #fabd2f;
+        border: 1px solid #d65d0e;
+        border-radius: 4px;
+      }
+
+      .widget-dnd > switch {
+        background: #3c3836;
+        border: 1px solid #d65d0e;
+        border-radius: 12px;
+      }
+
+      .widget-dnd > switch:checked {
+        background: #d65d0e;
+      }
+
+      .widget-buttons-grid > flowbox > flowboxchild > button:hover,
+      .close-button:hover {
+        background: #3c3836;
+      }
+    '';
   };
 
   # Waybar config files
