@@ -431,6 +431,10 @@ in
           command = "${pkgs.mako}/bin/mako";
           always = true;
         }
+        {
+          command = "${pkgs.swaybg}/bin/swaybg -i ${config.home.homeDirectory}/.local/share/backgrounds/default-wallpaper.png -m fill";
+          always = true;
+        }
       ];
 
       # Input/output settings (adjust for your hardware)
@@ -479,10 +483,14 @@ in
       padding=8
       margin=4
       default-timeout=2000
-    '';
+ "   '';
   };
 
   # Waybar config files
+  home.file.".local/share/backgrounds/default-wallpaper.png" = {
+    source = ./assets/avali-wallpaper.png;
+  };
+
   home.file.".config/waybar/config" = {
     text = waybarConfig;
   };
