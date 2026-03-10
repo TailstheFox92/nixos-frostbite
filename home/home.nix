@@ -23,6 +23,8 @@
       "x-scheme-handler/https" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/about" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/unknown" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "inode/directory" = [ "Thunar.desktop" ];
+      "application/x-gnome-saved-search" = [ "Thunar.desktop" ];
     };
   };
 
@@ -101,6 +103,8 @@
   # session environment for theming
   home.sessionVariables = {
     BROWSER = "brave";
+    TERMINAL = "alacritty";
+    FILE_MANAGER = "thunar";
     GTK_THEME = "gruvbox-dark";
     QT_QPA_PLATFORMTHEME = "qt5ct";       # tell Qt to use qt5ct for styling
     QT_STYLE_OVERRIDE = "kvantum";
