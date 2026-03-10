@@ -1,0 +1,115 @@
+[
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["custom/notification", "clock"],
+    "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "bluetooth", "network", "battery", "tray", "custom/power"],
+    "sway/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": true,
+      "format": "{icon}",
+      "format-icons": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "urgent": "",
+        "default": ""
+      }
+    },
+    "custom/weather": {
+      "format": "{}",
+      "interval": 600,
+      "exec": "@WAYBAR_WEATHER@",
+      "tooltip": false
+    },
+    "custom/notification": {
+      "tooltip": false,
+      "format": "{icon}",
+      "return-type": "json",
+      "exec": "swaync-client -swb",
+      "on-click": "swaync-client -t -sw",
+      "on-click-right": "swaync-client -d -sw",
+      "escape": true,
+      "format-icons": {
+        "none": "",
+        "notification": "",
+        "dnd-none": "",
+        "dnd-notification": "",
+        "inhibited-none": "",
+        "inhibited-notification": "",
+        "dnd-inhibited-none": "",
+        "dnd-inhibited-notification": ""
+      }
+    },
+    "custom/power": {
+      "format": "⏻",
+      "tooltip": false,
+      "on-click": "@ROFI_POWER_MENU@"
+    },
+    "cpu": {
+      "format": " {usage}%",
+      "interval": 2
+    },
+    "memory": {
+      "format": " {}%",
+      "interval": 2
+    },
+    "temperature": {
+      "critical-threshold": 85,
+      "format": " {temperatureF}°F",
+      "format-critical": " {temperatureF}°F"
+    },
+    "clock": {
+      "format": "{:%Y-%m-%d %H:%M}"
+    },
+    "network": {
+      "format-wifi": " {essid}",
+      "format-ethernet": " {ifname}",
+      "format-disconnected": " offline"
+    },
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": " disabled",
+      "format-off": " off",
+      "format-connected": " {device_alias}",
+      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+      "on-click": "blueman-manager"
+    },
+    "pulseaudio": {
+      "format": " {volume}%",
+      "format-muted": "󰖁 muted",
+      "on-click": "pavucontrol"
+    },
+    "backlight": {
+      "format": " {percent}%"
+    },
+    "battery": {
+      "format": "{icon} {capacity}%",
+      "format-charging": " {capacity}%",
+      "format-full": " {capacity}%",
+      "format-icons": ["", "", "", "", ""]
+    },
+    "tray": {
+      "spacing": 8
+    }
+  },
+  {
+    "name": "bottom-dock",
+    "layer": "top",
+    "position": "bottom",
+    "height": 40,
+    "modules-center": ["wlr/taskbar"],
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 20,
+      "spacing": 6,
+      "tooltip-format": "{title}",
+      "on-click": "activate",
+      "on-click-middle": "close"
+    }
+  }
+]

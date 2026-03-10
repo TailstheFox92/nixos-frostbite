@@ -1,0 +1,64 @@
+/**
+ * @name Gruvbox Dark
+ * @description Gruvbox-inspired dark theme for Discord via Vencord
+ * @author qu1ck51lv3r
+ * @version 1.0.0
+ */
+
+:root {
+  --bg0-hard: #1d2021;
+  --bg0: #282828;
+  --bg1: #3c3836;
+  --bg2: #504945;
+  --bg3: #665c54;
+  --fg0: #fbf1c7;
+  --fg1: #ebdbb2;
+  --fg2: #d5c4a1;
+  --orange: #fe8019;
+  --yellow: #fabd2f;
+  --aqua: #8ec07c;
+}
+
+.theme-dark,
+.theme-dark .appMount-2yBXZl,
+.theme-dark .bg-1QIAus {
+  --background-primary: var(--bg0) !important;
+  --background-secondary: var(--bg1) !important;
+  --background-secondary-alt: var(--bg2) !important;
+  --background-tertiary: var(--bg0-hard) !important;
+  --background-base-low: var(--bg0-hard) !important;
+  --background-base-lower: var(--bg0) !important;
+  --background-base-lowest: var(--bg0-hard) !important;
+  --background-surface-high: var(--bg2) !important;
+  --background-surface-higher: var(--bg3) !important;
+  --background-surface-highest: var(--bg3) !important;
+  --background-floating: var(--bg1) !important;
+  --background-modifier-hover: rgba(235, 219, 178, 0.08) !important;
+  --background-modifier-active: rgba(235, 219, 178, 0.14) !important;
+  --background-modifier-selected: rgba(250, 189, 47, 0.16) !important;
+  --channeltextarea-background: var(--bg1) !important;
+  --chat-background-default: var(--bg0) !important;
+  --chat-background: var(--bg0) !important;
+  --input-background: var(--bg1) !important;
+  --modal-background: var(--bg0) !important;
+  --modal-footer-background: var(--bg1) !important;
+  --home-background: var(--bg0) !important;
+  --interactive-normal: var(--fg1) !important;
+  --interactive-hover: var(--yellow) !important;
+  --interactive-active: var(--orange) !important;
+  --text-normal: var(--fg1) !important;
+  --text-primary: var(--fg1) !important;
+  --text-secondary: var(--fg2) !important;
+  --text-muted: #a89984 !important;
+  --header-primary: var(--fg0) !important;
+  --header-secondary: var(--fg1) !important;
+  --brand-500: var(--orange) !important;
+  --brand-560: #d65d0e !important;
+  --button-filled-brand-background: var(--orange) !important;
+  --button-filled-brand-background-hover: #d65d0e !important;
+  --button-filled-brand-text: var(--bg0) !important;
+}
+
+.theme-dark a {
+  color: var(--aqua) !important;
+}

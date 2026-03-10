@@ -1,0 +1,46 @@
+* {
+  background-color: #282828;
+  text-color: #ebdbb2;
+  font: "JetBrainsMono Nerd Font 12";
+  border: 2px;
+  border-color: #d65d0e;
+  border-radius: 6px;
+}
+
+window {
+  background-color: #282828;
+  border: 2px;
+  border-color: #d65d0e;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+inputbar {
+  background-color: #3c3836;
+  text-color: #fabd2f;
+  cursor: #fabd2f;
+  border: 0px;
+  padding: 8px;
+}
+
+listview {
+  lines: 10;
+  fixed-height: false;
+  spacing: 4px;
+}
+
+element {
+  background-color: transparent;
+  text-color: #ebdbb2;
+  border-radius: 3px;
+  padding: 2px;
+}
+element selected {
+  background-color: #d65d0e;
+  text-color: #282828;
+}
+
+scrollbar {
+  width: 8px;
+  handle-color: #d65d0e;
+}

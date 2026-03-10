@@ -1,0 +1,124 @@
+/* Gruvbox dark/orange theme */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
+  font-size: 12px;
+  color: #ebdbb2;
+  background: #282828;
+}
+
+/* modules panels */
+#workspaces button {
+  background: transparent;
+  border: 1px solid #d65d0e;
+  padding: 2px 6px;
+  margin: 0 2px;
+  border-radius: 3px;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+  background: #3c3836;
+  border-color: #fabd2f;
+  color: #fabd2f;
+}
+
+#workspaces button.urgent {
+  background: #fb4934;
+  border-color: #fb4934;
+  color: #282828;
+}
+
+#clock {
+  color: #fabd2f;
+}
+
+window#waybar.bottom-dock {
+  min-height: 40px;
+}
+
+#taskbar {
+  margin: 0;
+  padding: 0 8px;
+}
+
+#taskbar button {
+  border: 1px solid #d65d0e;
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin: 4px 3px;
+  background: transparent;
+}
+
+#taskbar button.active {
+  background: #3c3836;
+  border-color: #fabd2f;
+  color: #fabd2f;
+}
+
+#custom-weather {
+  margin-left: 8px;
+  color: #8ec07c;
+}
+
+#pulseaudio {
+  margin-left: 8px;
+  color: #83a598;
+}
+
+#backlight {
+  margin-left: 8px;
+  color: #fabd2f;
+}
+
+#cpu {
+  margin-left: 8px;
+  color: #d3869b;
+}
+
+#memory {
+  margin-left: 8px;
+  color: #b8bb26;
+}
+
+#temperature {
+  margin-left: 8px;
+  color: #fb4934;
+}
+
+#bluetooth {
+  margin-left: 12px;
+  color: #fe8019;
+}
+
+#network {
+  margin-left: 8px;
+  color: #8ec07c;
+}
+
+#battery {
+  margin-left: 8px;
+  color: #b8bb26;
+}
+
+#tray {
+  margin-left: 8px;
+  color: #ebdbb2;
+}
+
+#custom-notification {
+  margin-right: 8px;
+  color: #fe8019;
+}
+
+#custom-power {
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #fe8019;
+}
+
+/* icons */
+.icon {
+  margin-right: 4px;
+  color: #fe8019;
+}
