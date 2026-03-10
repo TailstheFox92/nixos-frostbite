@@ -52,10 +52,24 @@
     ];
   };
 
-  # Display manager (GDM for Wayland/Sway support)
-  services.displayManager.gdm = {
+  # Display manager (Ly TUI greeter with Gruvbox styling)
+  services.displayManager.defaultSession = "sway";
+
+  services.displayManager.ly = {
     enable = true;
-    wayland = true;
+    settings = {
+      animation = "none";
+      full_color = true;
+      bg = "0x00282828";
+      border_fg = "0x00d65d0e";
+      error_bg = "0x00282828";
+      error_fg = "0x01fb4934";
+      fg = "0x00ebdbb2";
+      input_bg = "0x00282828";
+      input_fg = "0x00fabd2f";
+      msg_bg = "0x00282828";
+      msg_fg = "0x00b8bb26";
+    };
   };
 
   # Fonts (basic set for better UI)
