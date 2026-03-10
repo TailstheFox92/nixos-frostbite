@@ -139,7 +139,7 @@ let
         "height": 28,
         "modules-left": ["sway/workspaces"],
         "modules-center": ["clock"],
-        "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "network", "battery", "tray", "custom/power"],
+        "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "bluetooth", "network", "battery", "tray", "custom/power"],
         "sway/workspaces": {
           "disable-scroll": true,
           "all-outputs": true,
@@ -176,6 +176,14 @@ let
           "format-wifi": " {essid}",
           "format-ethernet": " {ifname}",
           "format-disconnected": " offline"
+        },
+        "bluetooth": {
+          "format": " {status}",
+          "format-disabled": " disabled",
+          "format-off": " off",
+          "format-connected": " {device_alias}",
+          "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+          "on-click": "blueman-manager"
         },
         "pulseaudio": {
           "format": " {volume}%",
@@ -257,21 +265,60 @@ let
       background: #3c3836;
     }
 
-    #custom-weather,
-    #pulseaudio,
-    #backlight,
-    #cpu,
-    #memory,
-    #temperature,
-    #network,
-    #battery,
+    #custom-weather {
+      margin-left: 8px;
+      color: #8ec07c;
+    }
+
+    #pulseaudio {
+      margin-left: 8px;
+      color: #83a598;
+    }
+
+    #backlight {
+      margin-left: 8px;
+      color: #fabd2f;
+    }
+
+    #cpu {
+      margin-left: 8px;
+      color: #d3869b;
+    }
+
+    #memory {
+      margin-left: 8px;
+      color: #b8bb26;
+    }
+
+    #temperature {
+      margin-left: 8px;
+      color: #fb4934;
+    }
+
+    #bluetooth {
+      margin-left: 12px;
+      color: #fe8019;
+    }
+
+    #network {
+      margin-left: 8px;
+      color: #8ec07c;
+    }
+
+    #battery {
+      margin-left: 8px;
+      color: #b8bb26;
+    }
+
     #tray {
       margin-left: 8px;
+      color: #ebdbb2;
     }
 
     #custom-power {
       margin-left: 8px;
       margin-right: 8px;
+      color: #fe8019;
     }
 
     /* icons */
@@ -411,6 +458,7 @@ in
     wl-clipboard
     libnotify
     pavucontrol
+    blueman
 
 
     # theming packages
@@ -539,6 +587,7 @@ in
         "${modifier}+Shift+d" = "exec vesktop";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
         "${modifier}+w" = "exec brave";  # Launch Brave
+        "${modifier}+b" = "exec blueman-manager";  # Launch Blueman Manager
         "XF86AudioRaiseVolume" = "exec ${volumeUpNotify}/bin/volume-up-notify";
         "XF86AudioLowerVolume" = "exec ${volumeDownNotify}/bin/volume-down-notify";
         "XF86AudioMute" = "exec ${volumeMuteToggleNotify}/bin/volume-mute-toggle-notify";
@@ -567,6 +616,10 @@ in
         }
         {
           command = "${pkgs.swaybg}/bin/swaybg -i ${wallpaperPath} -m fill";
+          always = true;
+        }
+        {
+          command = "${pkgs.sway}/bin/swaymsg workspace number 1";
           always = true;
         }
       ];
