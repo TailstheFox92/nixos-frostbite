@@ -316,6 +316,10 @@ in
   programs.rofi = {
     enable = true;
     theme = rofiTheme;
+    extraConfig = {
+      show-icons = true;
+      drun-display-format = "{icon} {name}";
+    };
   };
 
   # Mako notification theme matching Waybar/Avali UI
