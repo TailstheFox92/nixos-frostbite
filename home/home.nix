@@ -523,7 +523,7 @@ in
     size = 24;
   };
 
-  # Optional: Configure Dropbox as a systemd user service
+  # Start Dropbox automatically in the user session
   systemd.user.services.dropbox = {
     Unit = {
       Description = "Dropbox service";
@@ -532,7 +532,8 @@ in
       WantedBy = [ "default.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.dropbox}/bin/dropbox";
+      ExecStart = "${pkgs.dropbox}/bin/dropbox start -i";
+      ExecStop = "${pkgs.dropbox}/bin/dropbox stop";
       Restart = "on-failure";
     };
   };
