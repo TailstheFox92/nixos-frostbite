@@ -87,6 +87,7 @@
     # C# / .NET development tools
     dotnet-sdk
     dotnet-runtime
+    icu
     nuget
     ilspycmd
     zip

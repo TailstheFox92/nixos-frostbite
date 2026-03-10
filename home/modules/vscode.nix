@@ -33,11 +33,21 @@ in
   home.activation.vscodeUserSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     code_user_dir="$HOME/.config/Code/User"
     mkdir -p "$code_user_dir"
-    cat > "$code_user_dir/settings.json" <<'EOF'
+    cat > "$code_user_dir/settings.json" <<EOF
 {
   "editor.fontFamily": "JetBrainsMono Nerd Font, Droid Sans Mono, monospace",
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
-  "workbench.colorTheme": "Gruvbox Dark Medium"
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "dotnetAcquisitionExtension.existingDotnetPath": [
+    {
+      "extensionId": "ms-dotnettools.csharp",
+      "path": "${pkgs.dotnet-sdk}/bin/dotnet"
+    },
+    {
+      "extensionId": "ms-dotnettools.csdevkit",
+      "path": "${pkgs.dotnet-sdk}/bin/dotnet"
+    }
+  ]
 }
 EOF
   '';
