@@ -99,63 +99,80 @@ let
     ${pkgs.libnotify}/bin/notify-send -a "Brightness" -u low -t 1200 "Brightness" "$percent"
   '';
   waybarConfig = ''
-    {
-      "layer": "top",
-      "position": "top",
-      "height": 28,
-      "modules-left": ["sway/workspaces"],
-      "modules-center": ["clock"],
-      "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "network", "battery", "tray"],
-      "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{name}"
+    [
+      {
+        "layer": "top",
+        "position": "top",
+        "height": 28,
+        "modules-left": ["sway/workspaces"],
+        "modules-center": ["clock"],
+        "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "network", "battery", "tray"],
+        "sway/workspaces": {
+          "disable-scroll": true,
+          "all-outputs": true,
+          "format": "{name}"
+        },
+        "custom/weather": {
+          "format": "{}",
+          "interval": 600,
+          "exec": "${waybarWeather}/bin/waybar-weather",
+          "tooltip": false
+        },
+        "cpu": {
+          "format": " {usage}%",
+          "interval": 2
+        },
+        "memory": {
+          "format": " {}%",
+          "interval": 2
+        },
+        "temperature": {
+          "critical-threshold": 85,
+          "format": " {temperatureC}°C",
+          "format-critical": " {temperatureC}°C"
+        },
+        "clock": {
+          "format": "{:%Y-%m-%d %H:%M}"
+        },
+        "network": {
+          "format-wifi": " {essid}",
+          "format-ethernet": " {ifname}",
+          "format-disconnected": " offline"
+        },
+        "pulseaudio": {
+          "format": " {volume}%",
+          "format-muted": "󰖁 muted",
+          "on-click": "pavucontrol"
+        },
+        "backlight": {
+          "format": " {percent}%"
+        },
+        "battery": {
+          "format": "{icon} {capacity}%",
+          "format-charging": " {capacity}%",
+          "format-full": " {capacity}%",
+          "format-icons": ["", "", "", "", ""]
+        },
+        "tray": {
+          "spacing": 8
+        }
       },
-      "custom/weather": {
-        "format": "{}",
-        "interval": 600,
-        "exec": "${waybarWeather}/bin/waybar-weather",
-        "tooltip": false
-      },
-      "cpu": {
-        "format": " {usage}%",
-        "interval": 2
-      },
-      "memory": {
-        "format": " {}%",
-        "interval": 2
-      },
-      "temperature": {
-        "critical-threshold": 85,
-        "format": " {temperatureC}°C",
-        "format-critical": " {temperatureC}°C"
-      },
-      "clock": {
-        "format": "{:%Y-%m-%d %H:%M}"
-      },
-      "network": {
-        "format-wifi": " {essid}",
-        "format-ethernet": " {ifname}",
-        "format-disconnected": " offline"
-      },
-      "pulseaudio": {
-        "format": " {volume}%",
-        "format-muted": "󰖁 muted",
-        "on-click": "pavucontrol"
-      },
-      "backlight": {
-        "format": " {percent}%"
-      },
-      "battery": {
-        "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-full": " {capacity}%",
-        "format-icons": ["", "", "", "", ""]
-      },
-      "tray": {
-        "spacing": 8
+      {
+        "name": "bottom-dock",
+        "layer": "top",
+        "position": "bottom",
+        "height": 40,
+        "modules-center": ["wlr/taskbar"],
+        "wlr/taskbar": {
+          "format": "{icon}",
+          "icon-size": 20,
+          "spacing": 6,
+          "tooltip-format": "{title}",
+          "on-click": "activate",
+          "on-click-middle": "close"
+        }
       }
-    }
+    ]
   '';
   waybarStyle = ''
     /* Gruvbox dark/orange theme */
@@ -179,6 +196,27 @@ let
 
     #clock {
       color: #fabd2f;
+    }
+
+    window#waybar.bottom-dock {
+      min-height: 40px;
+    }
+
+    #taskbar {
+      margin: 0;
+      padding: 0 8px;
+    }
+
+    #taskbar button {
+      border: 1px solid #d65d0e;
+      border-radius: 4px;
+      padding: 4px 10px;
+      margin: 4px 3px;
+      background: transparent;
+    }
+
+    #taskbar button.active {
+      background: #3c3836;
     }
 
     #custom-weather,
