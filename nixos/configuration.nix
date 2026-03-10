@@ -50,6 +50,7 @@
   };
 
   programs.zsh.enable = true;  # Enable Zsh for the user
+  programs.nix-ld.enable = true;
   programs.firefox.enable = false;
   programs.gamemode.enable = true;
   programs.gamescope.enable = true;
