@@ -347,6 +347,79 @@ in
   home.file.".config/waybar/style.css" = {
     text = waybarStyle;
   };
+  home.file.".config/fastfetch/logo.txt" = {
+    text = ''
+                                 #           
+                               ###           
+                              ####           
+                            ######           
+                           #######           
+                          #######            
+                         #######             
+              ######## -#######      ###     
+           ####        ########   #####+     
+         ###          ########  #######      
+        ###          #######. ########       
+       ##           ####### ########         
+      .##          ###### #########          
+      ##           #### #########            
+      ##          #### ########. #           
+      ##         +### ########    ######     
+       ##        ### #####   #########       
+       ###       # ####  ##########          
+        ###     # ##   #########             
+          ###    -  #########                
+            ##    #       ##                 
+                  ######-                    
+    '';
+  };
+  home.file.".config/fastfetch/config.jsonc" = {
+    text = ''
+      {
+        "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+        "logo": {
+          "type": "file",
+          "source": "~/.config/fastfetch/logo.txt",
+          "color": {
+            "1": "38;5;208"
+          },
+          "printRemaining": true,
+          "position": "left"
+        },
+        "modules": [
+          "title",
+          "separator",
+          "os",
+          "host",
+          "kernel",
+          "uptime",
+          "packages",
+          "shell",
+          "display",
+          "de",
+          "wm",
+          "wmtheme",
+          "theme",
+          "icons",
+          "font",
+          "cursor",
+          "terminal",
+          "terminalfont",
+          "cpu",
+          "gpu",
+          "memory",
+          "swap",
+          "disk",
+          "localip",
+          "battery",
+          "poweradapter",
+          "locale",
+          "break",
+          "colors"
+        ]
+      }
+    '';
+  };
 
   # Zsh configuration with fastfetch and quality-of-life features
   programs.zsh = {
