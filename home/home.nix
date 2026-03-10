@@ -1,6 +1,11 @@
 { config, pkgs, lib, ... }:
 
 let
+  wallpaperPath = "${config.home.homeDirectory}/.local/share/backgrounds/default-wallpaper.png";
+  lockScreen = pkgs.writeShellScriptBin "lock-screen" ''
+    #!/usr/bin/env sh
+    exec ${pkgs.swaylock}/bin/swaylock -f -i ${wallpaperPath} -s fill
+  '';
   screenshotFull = pkgs.writeShellScriptBin "screenshot-full" ''
     #!/usr/bin/env sh
     set -eu
@@ -456,6 +461,31 @@ in
     '';
   };
 
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      {
+        timeout = 300;
+        command = "${lockScreen}/bin/lock-screen";
+      }
+      {
+        timeout = 600;
+        command = ''${pkgs.sway}/bin/swaymsg "output * dpms off"'';
+        resumeCommand = ''${pkgs.sway}/bin/swaymsg "output * dpms on"'';
+      }
+    ];
+    events = [
+      {
+        event = "before-sleep";
+        command = "${lockScreen}/bin/lock-screen";
+      }
+      {
+        event = "lock";
+        command = "${lockScreen}/bin/lock-screen";
+      }
+    ];
+  };
+
   # Basic Sway configuration
   wayland.windowManager.sway = {
     enable = true;
@@ -468,6 +498,7 @@ in
       keybindings = pkgs.lib.mkOptionDefault {
         "${modifier}+Return" = "exec ${terminal}";
         "${modifier}+d" = "exec ${menu}";
+        "${modifier}+Shift+l" = "exec ${lockScreen}/bin/lock-screen";
         "${modifier}+Shift+d" = "exec vesktop";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
         "${modifier}+w" = "exec brave";  # Launch Brave
@@ -498,7 +529,7 @@ in
           always = true;
         }
         {
-          command = "${pkgs.swaybg}/bin/swaybg -i ${config.home.homeDirectory}/.local/share/backgrounds/default-wallpaper.png -m fill";
+          command = "${pkgs.swaybg}/bin/swaybg -i ${wallpaperPath} -m fill";
           always = true;
         }
       ];
@@ -514,6 +545,7 @@ in
       # Additional Sway config options here
       default_border pixel 2
       gaps inner 5
+      bindswitch --reload --locked lid:on exec ${lockScreen}/bin/lock-screen
     '';
   };
 
