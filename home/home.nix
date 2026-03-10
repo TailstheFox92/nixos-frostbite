@@ -139,7 +139,7 @@ let
         "height": 28,
         "modules-left": ["sway/workspaces"],
         "modules-center": ["clock"],
-        "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "network", "battery", "tray"],
+        "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "network", "battery", "tray", "custom/power"],
         "sway/workspaces": {
           "disable-scroll": true,
           "all-outputs": true,
@@ -150,6 +150,11 @@ let
           "interval": 600,
           "exec": "${waybarWeather}/bin/waybar-weather",
           "tooltip": false
+        },
+        "custom/power": {
+          "format": "⏻",
+          "tooltip": false,
+          "on-click": "${rofiPowerMenu}/bin/rofi-powermenu"
         },
         "cpu": {
           "format": " {usage}%",
@@ -264,6 +269,11 @@ let
       margin-left: 8px;
     }
 
+    #custom-power {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
     /* icons */
     .icon {
       margin-right: 4px;
@@ -331,6 +341,35 @@ let
       printf '[%s] Exit code: %s\n' "$(date -Is)" "$status"
       exit "$status"
     } >>"$log_file" 2>&1
+  '';
+  rofiPowerMenu = pkgs.writeShellScriptBin "rofi-powermenu" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    options="Lock\nLogout\nSuspend\nReboot\nShutdown"
+    chosen="$(printf '%b\n' "$options" | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Power")"
+
+    case "$chosen" in
+      Lock)
+        exec ${lockScreen}/bin/lock-screen
+        ;;
+      Logout)
+        exec ${pkgs.sway}/bin/swaymsg exit
+        ;;
+      Suspend)
+        ${lockScreen}/bin/lock-screen
+        exec ${pkgs.systemd}/bin/systemctl suspend
+        ;;
+      Reboot)
+        exec ${pkgs.systemd}/bin/systemctl reboot
+        ;;
+      Shutdown)
+        exec ${pkgs.systemd}/bin/systemctl poweroff
+        ;;
+      *)
+        exit 0
+        ;;
+    esac
   '';
 in
 {
@@ -474,16 +513,10 @@ in
         resumeCommand = ''${pkgs.sway}/bin/swaymsg "output * dpms on"'';
       }
     ];
-    events = [
-      {
-        event = "before-sleep";
-        command = "${lockScreen}/bin/lock-screen";
-      }
-      {
-        event = "lock";
-        command = "${lockScreen}/bin/lock-screen";
-      }
-    ];
+    events = {
+      before-sleep = "${lockScreen}/bin/lock-screen";
+      lock = "${lockScreen}/bin/lock-screen";
+    };
   };
 
   # Basic Sway configuration
@@ -498,6 +531,7 @@ in
       keybindings = pkgs.lib.mkOptionDefault {
         "${modifier}+Return" = "exec ${terminal}";
         "${modifier}+d" = "exec ${menu}";
+        "${modifier}+Shift+p" = "exec ${rofiPowerMenu}/bin/rofi-powermenu";
         "${modifier}+Shift+l" = "exec ${lockScreen}/bin/lock-screen";
         "${modifier}+Shift+d" = "exec vesktop";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
