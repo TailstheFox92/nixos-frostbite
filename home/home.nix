@@ -651,6 +651,15 @@ in
       assign [app_id="vesktop"] workspace number 3
       assign [class="Vesktop"] workspace number 3
       assign [class="discord"] workspace number 3
+      for_window [app_id="brave-browser" window_type="dialog"] floating enable
+      for_window [class="Brave-browser" window_type="dialog"] floating enable
+      for_window [class="Steam" window_type="dialog"] floating enable
+      for_window [class="Steam" title="^Friends List$"] floating enable
+      for_window [class="Steam" title="^Properties - .*$"] floating enable
+      for_window [class="Steam" title="^.* - Properties$"] floating enable
+      for_window [class="Steam" title="^.*Properties.*$"] floating enable
+      for_window [app_id="thunar"] floating enable
+      for_window [class="Thunar"] floating enable
       bindswitch --reload --locked lid:on exec ${lockScreen}/bin/lock-screen
     '';
   };
