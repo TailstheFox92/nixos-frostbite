@@ -1,0 +1,78 @@
+* {
+  bg: #1e1e2e;
+  bg-alt: #313244;
+  fg: #cdd6f4;
+  fg-alt: #bac2de;
+  accent: #cba6f7;
+  urgent: #f38ba8;
+}
+
+configuration {
+  modi: "drun,run,window";
+  show-icons: true;
+  drun-display-format: "{icon} {name}";
+}
+
+window {
+  width: 38%;
+  border: 2;
+  border-color: @accent;
+  border-radius: 8px;
+  background-color: @bg;
+}
+
+mainbox {
+  spacing: 8px;
+  padding: 10px;
+  background-color: @bg;
+}
+
+inputbar {
+  children: [ prompt, entry ];
+  border: 1px;
+  border-color: @bg-alt;
+  border-radius: 6px;
+  padding: 8px;
+  background-color: @bg-alt;
+}
+
+prompt {
+  text-color: @accent;
+  margin: 0 8px 0 0;
+}
+
+entry {
+  text-color: @fg;
+}
+
+listview {
+  lines: 10;
+  columns: 1;
+  spacing: 4px;
+  scrollbar: true;
+  background-color: @bg;
+}
+
+element {
+  padding: 8px;
+  border: 1px;
+  border-radius: 6px;
+  border-color: transparent;
+  background-color: transparent;
+  text-color: @fg;
+}
+
+element selected {
+  background-color: @bg-alt;
+  border-color: @accent;
+  text-color: @fg;
+}
+
+element-icon {
+  size: 20px;
+  margin: 0 10px 0 0;
+}
+
+element urgent {
+  text-color: @urgent;
+}

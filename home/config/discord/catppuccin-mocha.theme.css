@@ -1,0 +1,15 @@
+:root {
+  --background-primary: #1e1e2e;
+  --background-secondary: #181825;
+  --background-tertiary: #11111b;
+  --background-accent: #313244;
+  --text-normal: #cdd6f4;
+  --text-muted: #a6adc8;
+  --channels-default: #bac2de;
+  --interactive-normal: #bac2de;
+  --interactive-hover: #cdd6f4;
+  --interactive-active: #f5c2e7;
+  --brand-experiment: #cba6f7;
+  --status-danger: #f38ba8;
+  --status-positive: #a6e3a1;
+}
