@@ -23,6 +23,17 @@
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   hardware.bluetooth.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      libva-vdpau-driver
+      libvdpau-va-gl
+      vulkan-tools
+      vulkan-validation-layers
+    ];
+  };
   services.blueman.enable = true;
   services.pipewire = {
     enable = true;
@@ -40,6 +51,18 @@
 
   programs.zsh.enable = true;  # Enable Zsh for the user
   programs.firefox.enable = false;
+  programs.gamemode.enable = true;
+  programs.gamescope.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
+    protontricks.enable = true;
+    extraCompatPackages = [
+      pkgs.proton-ge-bin
+    ];
+  };
 
   nixpkgs.config.allowUnfree = true;  # Allow unfree packages (for VSCode, etc.)
 
@@ -88,6 +111,7 @@
     foot  # Terminal emulator for live environment
     rofi       # Application launcher for live environment
     calamares  # Ensure Calamares is available in $PATH
+    mangohud
   ];
 
   # Nix settings
