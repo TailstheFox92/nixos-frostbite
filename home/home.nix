@@ -143,7 +143,16 @@ let
         "sway/workspaces": {
           "disable-scroll": true,
           "all-outputs": true,
-          "format": "{name}"
+          "format": "{icon}",
+          "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "urgent": "",
+            "default": ""
+          }
         },
         "custom/weather": {
           "format": "{}",
@@ -635,6 +644,13 @@ in
       # Additional Sway config options here
       default_border pixel 2
       gaps inner 5
+      assign [app_id="code"] workspace number 1
+      assign [class="Code"] workspace number 1
+      assign [app_id="brave-browser"] workspace number 2
+      assign [class="Brave-browser"] workspace number 2
+      assign [app_id="vesktop"] workspace number 3
+      assign [class="Vesktop"] workspace number 3
+      assign [class="discord"] workspace number 3
       bindswitch --reload --locked lid:on exec ${lockScreen}/bin/lock-screen
     '';
   };
