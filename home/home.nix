@@ -54,6 +54,9 @@
     dotnet-sdk
     dotnet-runtime
     nuget
+    ilspycmd
+    zip
+    unzip
 
 
     # theming packages
