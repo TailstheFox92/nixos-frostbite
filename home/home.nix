@@ -1,6 +1,51 @@
 { config, pkgs, lib, ... }:
 
 let
+  screenshotFull = pkgs.writeShellScriptBin "screenshot-full" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    dir="$HOME/Pictures/Screenshots"
+    ts="$(date +"%Y-%m-%d_%H-%M-%S")"
+    file="$dir/$ts.png"
+
+    mkdir -p "$dir"
+    ${pkgs.grim}/bin/grim "$file"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$file"
+    ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
+  '';
+  screenshotRegion = pkgs.writeShellScriptBin "screenshot-region" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    dir="$HOME/Pictures/Screenshots"
+    ts="$(date +"%Y-%m-%d_%H-%M-%S")"
+    file="$dir/$ts.png"
+
+    mkdir -p "$dir"
+    geometry="$(${pkgs.slurp}/bin/slurp)"
+    [ -n "$geometry" ] || exit 0
+
+    ${pkgs.grim}/bin/grim -g "$geometry" "$file"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$file"
+    ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
+  '';
+  screenshotRegionEdit = pkgs.writeShellScriptBin "screenshot-region-edit" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    dir="$HOME/Pictures/Screenshots"
+    ts="$(date +"%Y-%m-%d_%H-%M-%S")"
+    file="$dir/$ts.png"
+
+    mkdir -p "$dir"
+    geometry="$(${pkgs.slurp}/bin/slurp)"
+    [ -n "$geometry" ] || exit 0
+
+    ${pkgs.grim}/bin/grim -g "$geometry" - | ${pkgs.swappy}/bin/swappy -f - -o "$file"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$file"
+    ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
+  '';
   waybarWeather = pkgs.writeShellScriptBin "waybar-weather" ''
     weather="$(${pkgs.curl}/bin/curl -s --max-time 5 'https://wttr.in/?format=%c+%t')"
     if [ -n "$weather" ]; then
@@ -193,6 +238,11 @@ in
     dropbox # Dropbox client
     mako # Notification daemon
     vencord # Discord client with Vencord mod support
+    grim
+    slurp
+    swappy
+    wl-clipboard
+    libnotify
 
     # theming packages
     gruvbox-dark-gtk
@@ -298,6 +348,9 @@ in
         "${modifier}+d" = "exec ${menu}";
         "${modifier}+e" = "exec thunar";  # Launch Thunar
         "${modifier}+w" = "exec brave";  # Launch Brave
+        "Print" = "exec ${screenshotFull}/bin/screenshot-full";
+        "Shift+Print" = "exec ${screenshotRegion}/bin/screenshot-region";
+        "Ctrl+Print" = "exec ${screenshotRegionEdit}/bin/screenshot-region-edit";
         "${modifier}+Shift+q" = "kill";  # Close window
       };
 
