@@ -396,6 +396,9 @@ in
   home.packages = with pkgs; [
     rofi  # Application launcher
     thunar  # File manager
+    tumbler  # Thumbnail service used by Thunar previews
+    ffmpegthumbnailer  # Video thumbnails
+    webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
     alacritty  # Terminal emulator
     fastfetch # For the funny ascii system info in the terminal
