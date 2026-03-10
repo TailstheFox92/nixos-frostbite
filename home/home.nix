@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   waybarWeather = pkgs.writeShellScriptBin "waybar-weather" ''
@@ -61,27 +61,27 @@ let
     }
   '';
   waybarStyle = ''
-    /* Avali‑style dark purple / blue theme */
+    /* Gruvbox dark/orange theme */
 
     * {
       font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
       font-size: 12px;
-      color: #cba6f7;
-      background: #1e1e2f;
+      color: #ebdbb2;
+      background: #282828;
     }
 
     /* modules panels */
     #workspaces button,
     #workspaces button.active {
       background: transparent;
-      border: 1px solid #6c71c4;
+      border: 1px solid #d65d0e;
       padding: 2px 6px;
       margin: 0 2px;
       border-radius: 3px;
     }
 
     #clock {
-      color: #89b4fa;
+      color: #fabd2f;
     }
 
     #custom-weather,
@@ -97,31 +97,31 @@ let
     /* icons */
     .icon {
       margin-right: 4px;
-      color: #f5c2e7;
+      color: #fe8019;
     }
   '';
   rofiTheme = builtins.toFile "rofi-theme.rasi" ''
     * {
-      background-color: #1e1e2f;
-      text-color: #cba6f7;
+      background-color: #282828;
+      text-color: #ebdbb2;
       font: "JetBrainsMono Nerd Font 12";
       border: 2px;
-      border-color: #6c71c4;
+      border-color: #d65d0e;
       border-radius: 6px;
     }
 
     window {
-      background-color: #1e1e2f;
+      background-color: #282828;
       border: 2px;
-      border-color: #6c71c4;
+      border-color: #d65d0e;
       border-radius: 6px;
       padding: 5px;
     }
 
     inputbar {
-      background-color: #262635;
-      text-color: #89b4fa;
-      cursor: #89b4fa;
+      background-color: #3c3836;
+      text-color: #fabd2f;
+      cursor: #fabd2f;
       border: 0px;
       padding: 8px;
     }
@@ -134,18 +134,18 @@ let
 
     element {
       background-color: transparent;
-      text-color: #cba6f7;
+      text-color: #ebdbb2;
       border-radius: 3px;
       padding: 2px;
     }
     element selected {
-      background-color: #6c71c4;
-      text-color: #1e1e2f;
+      background-color: #d65d0e;
+      text-color: #282828;
     }
 
     scrollbar {
       width: 8px;
-      handle-color: #6c71c4;
+      handle-color: #d65d0e;
     }
   '';
   rofiDebugLauncher = pkgs.writeShellScriptBin "rofi-debug-launcher" ''
@@ -179,21 +179,23 @@ in
     vencord # Discord client with Vencord mod support
 
     # theming packages
-    adapta-gtk-theme        # GTK theme close to our Waybar/Mako palette
-    papirus-icon-theme
+    gruvbox-dark-gtk
+    gruvbox-kvantum
+    gruvbox-dark-icons-gtk
     bibata-cursors
     libsForQt5.qt5ct               # Qt theme configuration tool
+    libsForQt5.qtstyleplugin-kvantum
   ];
 
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.adapta-gtk-theme;
-      name = "Adapta-Nokto";
+      package = pkgs.gruvbox-dark-gtk;
+      name = "gruvbox-dark";
     };
     iconTheme = {
-      package = pkgs.papirus-icon-theme;
-      name = "Papirus-Dark";
+      package = pkgs.gruvbox-dark-icons-gtk;
+      name = "oomox-gruvbox-dark";
     };
   };
 
@@ -221,6 +223,7 @@ in
 
   programs.vscode = {
     enable = true;
+    mutableExtensionsDir = true;
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
         ms-python.python
@@ -229,18 +232,21 @@ in
         dbaeumer.vscode-eslint
         jnoortheen.nix-ide
         vscodevim.vim
+        jdinhlife.gruvbox
       ];
       userSettings = {
         "editor.fontFamily" = "JetBrainsMono Nerd Font, 'Droid Sans Mono', monospace";
         "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
+        "workbench.colorTheme" = "Gruvbox Dark Hard";
       };
     };
   };
 
   # session environment for theming
   home.sessionVariables = {
-    GTK_THEME = "Adapta-Nokto";           # use dark/purple GTK theme
+    GTK_THEME = "gruvbox-dark";
     QT_QPA_PLATFORMTHEME = "qt5ct";       # tell Qt to use qt5ct for styling
+    QT_STYLE_OVERRIDE = "kvantum";
     XCURSOR_THEME = "Bibata-Modern-Ice";
     XCURSOR_SIZE = "24";
   };
@@ -249,9 +255,16 @@ in
   qt.qt5ctSettings = {
     enable = true;
     settings = {
-      style = "Adapta-Nokto";            # pick the matching style
-      iconTheme = "Papirus-Dark";
+      style = "kvantum";
+      iconTheme = "oomox-gruvbox-dark";
     };
+  };
+
+  home.file.".config/Kvantum/kvantum.kvconfig" = {
+    text = ''
+      [General]
+      theme=Gruvbox-Dark
+    '';
   };
 
   # Basic Sway configuration
@@ -312,9 +325,9 @@ in
       * {
         font-family: "JetBrainsMono Nerd Font", monospace;
         font-size: 12px;
-        color: #cba6f7;
-        background-color: #1e1e2f;
-        border: 1px solid #6c71c4;
+        color: #ebdbb2;
+        background-color: #282828;
+        border: 1px solid #d65d0e;
         border-radius: 4px;
         padding: 8px;
       }
@@ -325,17 +338,17 @@ in
 
       .title {
         font-weight: bold;
-        color: #89b4fa;
+        color: #fabd2f;
       }
 
       .body {
-        color: #cba6f7;
+        color: #ebdbb2;
       }
 
       /* icon color matches bar accent */
       .icon {
         margin-right: 6px;
-        color: #f5c2e7;
+        color: #fe8019;
       }
     '';
   };
