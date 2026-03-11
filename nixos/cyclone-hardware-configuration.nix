@@ -1,5 +1,3 @@
-# Desktop placeholder hardware config for Cyclone.
-# Replace this file with the output of `nixos-generate-config` on the Cyclone machine.
 { lib, modulesPath, ... }:
 
 {
@@ -12,17 +10,19 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
+    device = "/dev/disk/by-uuid/4d12f4a6-3664-44f3-b2f7-433411663f86";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
+    device = "/dev/disk/by-uuid/DD0C-9E32";
     fsType = "vfat";
     options = [ "fmask=0077" "dmask=0077" ];
   };
 
-  swapDevices = [ ];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/007e82e3-bf56-431d-affe-55e1fa1f4f78"; }
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

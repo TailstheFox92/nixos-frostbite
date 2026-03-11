@@ -22,8 +22,10 @@
 
   programs.git = {
     enable = true;
-    userName = "Gabriel Fernandez";
-    userEmail = "gfernandez@mailfence.com";
+    settings.user = {
+      name = "Gabriel Fernandez";
+      email = "gfernandez@mailfence.com";
+    };
   };
 
   programs.ssh = {
