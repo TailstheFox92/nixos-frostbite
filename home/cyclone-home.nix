@@ -143,6 +143,8 @@ in
     steam-run
     blender
     unityhub
+    alcom
+    vrc-get
 
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_8_0
