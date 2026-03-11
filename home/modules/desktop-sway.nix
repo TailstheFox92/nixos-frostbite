@@ -273,6 +273,11 @@ in
         "*" = {
           xkb_layout = "us";
         };
+        "type:touchpad" = {
+          tap = "enabled";
+          click_method = "clickfinger";
+          natural_scroll = "enabled";
+        };
       };
     };
     extraConfig = ''
