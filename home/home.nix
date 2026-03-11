@@ -75,6 +75,7 @@
     ffmpegthumbnailer  # Video thumbnails
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
+    ruffle # Flash content runtime (Adobe Flash replacement)
     alacritty  # Terminal emulator
     mousepad  # Lightweight GUI text editor
     neovim  # Terminal-based text editor
