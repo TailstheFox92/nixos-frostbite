@@ -59,6 +59,13 @@
   programs.nix-ld.enable = true;
   programs.firefox.enable = false;
 
+  services.flatpak = {
+    enable = true;
+    packages = [
+      "org.vinegarhq.Sober"
+    ];
+  };
+
   programs.gamemode.enable = true;
   programs.gamescope.enable = true;
   programs.alvr = {

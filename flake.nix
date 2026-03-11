@@ -7,9 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nix-flatpak, ... }@inputs: {
     nixosConfigurations = {
       Frostbite = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -30,6 +31,7 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
+          nix-flatpak.nixosModules.nix-flatpak
           ./nixos/cyclone-configuration.nix
           home-manager.nixosModules.home-manager
           {
