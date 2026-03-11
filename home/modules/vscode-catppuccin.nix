@@ -13,6 +13,12 @@ let
       version = "1.0.0";
       sha256 = "sha256-s60alej3cNAbSJxsRlIRE2Qha6oAsmcOBbWoqp+w6fk=";
     }
+    {
+      name = "vscode-udonsharp-linter";
+      publisher = "refiaa";
+      version = "0.1.0";
+      sha256 = "sha256-R2cVh1HssC7HAzu37yKvBxQyJTQ2uOMHIJx/FBkWldA=";
+    }
   ];
 in
 {
@@ -26,6 +32,7 @@ in
         ms-dotnettools.csharp
         ms-dotnettools.csdevkit
         ms-dotnettools.vscode-dotnet-runtime
+        visualstudiotoolsforunity.vstuc
         esbenp.prettier-vscode
         dbaeumer.vscode-eslint
         jnoortheen.nix-ide
@@ -45,6 +52,8 @@ in
   "workbench.colorTheme": "Catppuccin Mocha",
   "dotnet.server.useOmnisharp": true,
   "omnisharp.dotnetPath": "${dotnetCombined}/bin",
+  "unity.preferredExternalEditor": "Visual Studio Code",
+  "unity.openFileOnDoubleClick": true,
   "dotnetAcquisitionExtension.existingDotnetPath": [
     {
       "extensionId": "ms-dotnettools.csharp",
