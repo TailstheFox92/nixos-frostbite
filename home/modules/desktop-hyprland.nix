@@ -349,6 +349,7 @@ in
         "match:class ^(vesktop)$, workspace 3"
         "match:class ^(discord)$, workspace 3"
         "match:class ^(thunar)$, float on"
+        "match:class ^(imv|Imv|IMV)$, float on"
         "match:class ^(Steam)$, float on"
         "match:class ^(steam|steamwebhelper)$, float on"
         "match:class ^(vrmonitor|vrstartup|vrcompositor|vrserver)$, float on"

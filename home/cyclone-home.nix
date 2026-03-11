@@ -104,6 +104,13 @@ in
       "x-scheme-handler/https" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/about" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/unknown" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "image/png" = [ "imv.desktop" ];
+      "image/jpeg" = [ "imv.desktop" ];
+      "image/gif" = [ "imv.desktop" ];
+      "image/webp" = [ "imv.desktop" ];
+      "image/bmp" = [ "imv.desktop" ];
+      "image/tiff" = [ "imv.desktop" ];
+      "image/avif" = [ "imv.desktop" ];
       "inode/directory" = [ "Thunar.desktop" ];
       "application/x-gnome-saved-search" = [ "Thunar.desktop" ];
     };
@@ -118,6 +125,7 @@ in
     tumbler
     ffmpegthumbnailer
     webp-pixbuf-loader
+    imv
     brave
     alacritty
     mousepad

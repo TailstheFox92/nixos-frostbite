@@ -1,5 +1,34 @@
 { pkgs, ... }:
 
+let
+  lfPreview = pkgs.writeShellScriptBin "lf-preview" ''
+    file="$1"
+    width="$2"
+    height="$3"
+
+    [ -z "$file" ] && exit 1
+
+    mime=$(${pkgs.file}/bin/file --mime-type -Lb "$file")
+
+    case "$mime" in
+      image/*)
+        exec ${pkgs.chafa}/bin/chafa --size="''${width}x''${height}" --symbols=block --animate=off "$file"
+        ;;
+      text/*|*/xml|application/json|application/x-shellscript)
+        exec ${pkgs.bat}/bin/bat --style=plain --color=always --line-range=:300 "$file"
+        ;;
+      application/pdf)
+        exec ${pkgs."poppler-utils"}/bin/pdftotext -q -l 20 "$file" -
+        ;;
+      application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/msword|application/vnd.oasis.opendocument.text)
+        exec ${pkgs.pandoc}/bin/pandoc -t plain "$file"
+        ;;
+      *)
+        exec ${pkgs.file}/bin/file -Lb "$file"
+        ;;
+    esac
+  '';
+in
 {
   imports = [
     ./modules/desktop-sway.nix
@@ -61,6 +90,13 @@
       "x-scheme-handler/https" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/about" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/unknown" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "image/png" = [ "imv.desktop" ];
+      "image/jpeg" = [ "imv.desktop" ];
+      "image/gif" = [ "imv.desktop" ];
+      "image/webp" = [ "imv.desktop" ];
+      "image/bmp" = [ "imv.desktop" ];
+      "image/tiff" = [ "imv.desktop" ];
+      "image/avif" = [ "imv.desktop" ];
       "inode/directory" = [ "Thunar.desktop" ];
       "application/x-gnome-saved-search" = [ "Thunar.desktop" ];
     };
@@ -69,6 +105,12 @@
   # Install user packages
   home.packages = with pkgs; [
     rofi  # Application launcher
+    lf  # Terminal file manager
+    lfPreview  # Preview helper for lf
+    chafa  # Terminal image preview renderer
+    bat  # Syntax-highlighted text preview
+    pkgs."poppler-utils"  # PDF text preview tool (pdftotext)
+    pandoc  # Office document text preview
     thunar  # File manager
     thunar-volman  # Automount and removable media management for Thunar
     thunar-archive-plugin  # Archive create/extract integration inside Thunar
@@ -76,6 +118,7 @@
     tumbler  # Thumbnail service used by Thunar previews
     ffmpegthumbnailer  # Video thumbnails
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
+    imv  # Minimal image viewer
     brave  # Web browser
     ruffle # Flash content runtime (Adobe Flash replacement)
     alacritty  # Terminal emulator
@@ -206,6 +249,31 @@
                   ######-                    
     '';
   };
+
+  home.file.".config/lf/lfrc" = {
+    text = ''
+      set icons true
+      set preview true
+      set drawbox true
+      set hidden true
+      set number true
+      set relativenumber true
+      set previewer ${lfPreview}/bin/lf-preview
+
+      cmd open ''${{
+        case "$(xdg-mime query filetype "$f")" in
+          inode/directory) lf "$f" ;;
+          *) xdg-open "$f" >/dev/null 2>&1 ;;
+        esac
+      }}
+
+      map <enter> open
+      map gh cd ~
+      map gd cd ~/Downloads
+      map gp cd ~/Projects
+    '';
+  };
+
   home.file.".config/fastfetch/config.jsonc" = {
     text = ''
       {

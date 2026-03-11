@@ -304,6 +304,8 @@ in
       for_window [class="Steam" title="^.*Properties.*$"] floating enable
       for_window [app_id="thunar"] floating enable
       for_window [class="Thunar"] floating enable
+      for_window [app_id="imv"] floating enable
+      for_window [class="imv"] floating enable
       bindswitch --reload --locked lid:on exec ${lockScreen}/bin/lock-screen
     '';
   };
