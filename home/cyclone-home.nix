@@ -18,7 +18,11 @@
     };
   };
 
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "Gabriel Fernandez";
+    userEmail = "gfernandez@mailfence.com";
+  };
 
   programs.ssh = {
     enable = true;

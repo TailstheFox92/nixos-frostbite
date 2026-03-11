@@ -5,6 +5,8 @@
   fg-alt: #bac2de;
   accent: #cba6f7;
   urgent: #f38ba8;
+  background-color: transparent;
+  text-color: @fg;
 }
 
 configuration {
@@ -42,7 +44,13 @@ prompt {
 }
 
 entry {
+  background-color: transparent;
   text-color: @fg;
+}
+
+textbox-prompt-colon {
+  background-color: transparent;
+  text-color: @accent;
 }
 
 listview {
@@ -53,7 +61,17 @@ listview {
   background-color: @bg;
 }
 
+scrollbar {
+  width: 6px;
+  border: 0;
+  border-radius: 6px;
+  background-color: @bg-alt;
+  handle-width: 6px;
+  handle-color: @accent;
+}
+
 element {
+  children: [ element-icon, element-text ];
   padding: 8px;
   border: 1px;
   border-radius: 6px;
@@ -68,9 +86,45 @@ element selected {
   text-color: @fg;
 }
 
+element-text selected {
+  background-color: transparent;
+  text-color: @fg;
+}
+
 element-icon {
+  background-color: transparent;
   size: 20px;
   margin: 0 10px 0 0;
+}
+
+element-text {
+  background-color: transparent;
+  text-color: @fg;
+}
+
+textbox {
+  background-color: transparent;
+  text-color: @fg;
+}
+
+mode-switcher {
+  spacing: 6px;
+  background-color: @bg;
+}
+
+button {
+  background-color: @bg-alt;
+  text-color: @fg;
+  border: 1px;
+  border-color: transparent;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+button selected {
+  background-color: @bg-alt;
+  border-color: @accent;
+  text-color: @fg;
 }
 
 element urgent {

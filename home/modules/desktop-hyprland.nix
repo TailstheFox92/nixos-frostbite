@@ -139,7 +139,7 @@ let
     mkdir -p "$log_dir"
     {
       printf '\n[%s] Launching rofi\n' "$(date -Is)"
-      rofi -show drun "$@"
+      ${pkgs.rofi}/bin/rofi -show drun -theme ${rofiTheme} "$@"
       status=$?
       printf '[%s] Exit code: %s\n' "$(date -Is)" "$status"
       exit "$status"
@@ -150,7 +150,7 @@ let
     set -eu
 
     options="Lock\nLogout\nSuspend\nReboot\nShutdown"
-    chosen="$(printf '%b\n' "$options" | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Power")"
+    chosen="$(printf '%b\n' "$options" | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Power" -theme ${rofiTheme})"
 
     case "$chosen" in
       Lock)
@@ -189,7 +189,12 @@ in
     settings = {
       "$mod" = "SUPER";
 
-      monitor = [ ",preferred,auto,1" ];
+      monitor = [
+        "DP-2,1920x1080@239.76,1080x1080,1"
+        "DP-1,1920x1080@60,3000x1080,1"
+        "HDMI-A-1,1920x1080@74.99,0x1080,1,transform,3"
+        "HDMI-A-2,1920x1080@60,1080x0,1"
+      ];
 
       env = [
         "XCURSOR_SIZE,24"
@@ -239,11 +244,21 @@ in
         "$mod, 3, workspace, 3"
         "$mod, 4, workspace, 4"
         "$mod, 5, workspace, 5"
+        "$mod, 6, workspace, 6"
+        "$mod, 7, workspace, 7"
+        "$mod, 8, workspace, 8"
+        "$mod, 9, workspace, 9"
+        "$mod, 0, workspace, 10"
         "$mod SHIFT, 1, movetoworkspace, 1"
         "$mod SHIFT, 2, movetoworkspace, 2"
         "$mod SHIFT, 3, movetoworkspace, 3"
         "$mod SHIFT, 4, movetoworkspace, 4"
         "$mod SHIFT, 5, movetoworkspace, 5"
+        "$mod SHIFT, 6, movetoworkspace, 6"
+        "$mod SHIFT, 7, movetoworkspace, 7"
+        "$mod SHIFT, 8, movetoworkspace, 8"
+        "$mod SHIFT, 9, movetoworkspace, 9"
+        "$mod SHIFT, 0, movetoworkspace, 10"
         ", XF86AudioRaiseVolume, exec, ${volumeUpNotify}/bin/volume-up-notify"
         ", XF86AudioLowerVolume, exec, ${volumeDownNotify}/bin/volume-down-notify"
         ", XF86AudioMute, exec, ${volumeMuteToggleNotify}/bin/volume-mute-toggle-notify"
@@ -264,14 +279,14 @@ in
         "$mod, mouse:273, resizewindow"
       ];
 
-      windowrulev2 = [
-        "workspace 1, class:^(code)$"
-        "workspace 1, class:^(Code)$"
-        "workspace 2, class:^(Brave-browser)$"
-        "workspace 3, class:^(vesktop)$"
-        "workspace 3, class:^(discord)$"
-        "float, class:^(thunar)$"
-        "float, class:^(Steam)$"
+      windowrule = [
+        "match:class ^(code)$, workspace 1"
+        "match:class ^(Code)$, workspace 1"
+        "match:class ^(Brave-browser)$, workspace 2"
+        "match:class ^(vesktop)$, workspace 3"
+        "match:class ^(discord)$, workspace 3"
+        "match:class ^(thunar)$, float on"
+        "match:class ^(Steam)$, float on"
       ];
     };
   };
