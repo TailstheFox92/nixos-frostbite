@@ -44,6 +44,61 @@ let
     # Launch only ALVR. Start SteamVR manually from the ALVR dashboard when ready.
     exit 0
   '';
+
+  unityAlcom = pkgs.writeShellScriptBin "unity-alcom" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    editor="''${UNITY_EDITOR_PATH:-$HOME/Unity/Hub/Editor/2022.3.22f1/Editor/Unity}"
+    if [ ! -x "$editor" ]; then
+      editor="$(ls -1d "$HOME"/Unity/Hub/Editor/*/Editor/Unity 2>/dev/null | sort -V | tail -n 1)"
+    fi
+
+    if [ -z "''${editor:-}" ] || [ ! -x "$editor" ]; then
+      echo "unity-alcom: Unity editor not found. Install Unity via Unity Hub first." >&2
+      exit 1
+    fi
+
+    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
+      pkgs.stdenv.cc.cc
+      pkgs.zlib
+      pkgs.icu
+      pkgs.openssl
+      pkgs.curl
+      (pkgs.lib.getLib pkgs.libxml2_13)
+      pkgs.libxml2
+      pkgs.libGL
+      pkgs.libdrm
+      pkgs.mesa
+      pkgs.vulkan-loader
+      pkgs.systemd
+      pkgs.alsa-lib
+      pkgs.pulseaudio
+      pkgs.gtk3
+      pkgs.gdk-pixbuf
+      pkgs.pango
+      pkgs.cairo
+      pkgs.atk
+      pkgs.at-spi2-atk
+      pkgs.fontconfig
+      pkgs.freetype
+      pkgs.dbus
+      pkgs.glib
+      pkgs.nss
+      pkgs.nspr
+      pkgs.libxkbcommon
+      pkgs.wayland
+      pkgs.libx11
+      pkgs.libxext
+      pkgs.libxcursor
+      pkgs.libxi
+      pkgs.libxinerama
+      pkgs.libxrandr
+      pkgs.libxrender
+    ]}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+    exec "$editor" "$@"
+  '';
 in
 
 {
@@ -137,9 +192,12 @@ in
     pamixer
     playerctl
     brightnessctl
-    alvr
+    alvrIf unity-alcom -version fails, paste that exact output and I’ll patch the wrapper in one pass.
+    
+    
     wayvr
     vrAlvrQuest3
+    unityAlcom
     steam-run
     blender
     unityhub

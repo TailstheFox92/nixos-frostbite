@@ -56,7 +56,44 @@
   };
 
   programs.zsh.enable = true;
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      openssl
+      curl
+      libxml2
+      libGL
+      libdrm
+      mesa
+      vulkan-loader
+      systemd
+      alsa-lib
+      pulseaudio
+      gtk3
+      gdk-pixbuf
+      pango
+      cairo
+      atk
+      at-spi2-atk
+      fontconfig
+      freetype
+      dbus
+      glib
+      nss
+      nspr
+      libxkbcommon
+      wayland
+      libx11
+      libxext
+      libxcursor
+      libxi
+      libxinerama
+      libxrandr
+      libxrender
+    ];
+  };
   programs.firefox.enable = false;
 
   services.flatpak = {
