@@ -70,6 +70,8 @@
   home.packages = with pkgs; [
     rofi  # Application launcher
     thunar  # File manager
+    thunar-volman  # Automount and removable media management for Thunar
+    thunar-archive-plugin  # Archive create/extract integration inside Thunar
     thunar-dropbox-plugin  # Thunar context-menu integration for Dropbox
     tumbler  # Thumbnail service used by Thunar previews
     ffmpegthumbnailer  # Video thumbnails

@@ -112,6 +112,8 @@ in
   home.packages = with pkgs; [
     rofi
     thunar
+    thunar-volman
+    thunar-archive-plugin
     thunar-dropbox-plugin
     tumbler
     ffmpegthumbnailer
