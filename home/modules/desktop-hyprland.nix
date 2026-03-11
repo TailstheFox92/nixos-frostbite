@@ -196,6 +196,13 @@ in
         "HDMI-A-2,1920x1080@60,1080x0,1"
       ];
 
+      workspace = [
+        "1, monitor:DP-2, default:true"
+        "2, monitor:DP-1, default:true"
+        "3, monitor:HDMI-A-1, default:true"
+        "4, monitor:HDMI-A-2, default:true"
+      ];
+
       env = [
         "XCURSOR_SIZE,24"
         "XCURSOR_THEME,Bibata-Modern-Ice"
