@@ -4,7 +4,7 @@
     "position": "top",
     "height": 28,
     "modules-left": ["sway/workspaces"],
-    "modules-center": ["custom/notification", "clock"],
+    "modules-center": ["custom/notification", "clock", "custom/keybinds"],
     "modules-right": ["custom/weather", "pulseaudio", "backlight", "cpu", "memory", "temperature", "bluetooth", "network", "battery", "tray", "custom/power"],
     "sway/workspaces": {
       "disable-scroll": true,
@@ -49,6 +49,12 @@
       "format": "⏻",
       "tooltip": false,
       "on-click": "@ROFI_POWER_MENU@"
+    },
+    "custom/keybinds": {
+      "format": "󰌌",
+      "tooltip": true,
+      "tooltip-format": "Show keybinds",
+      "on-click": "@ROFI_KEYBINDS@"
     },
     "cpu": {
       "format": " {usage}%",

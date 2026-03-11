@@ -174,9 +174,29 @@ let
         ;;
     esac
   '';
+  rofiKeybinds = pkgs.writeShellScriptBin "rofi-keybinds" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    printf '%s\n' \
+      "SUPER+Return  Launch terminal (alacritty)" \
+      "SUPER+D       App launcher" \
+      "SUPER+Shift+P Power menu" \
+      "SUPER+Shift+L Lock screen" \
+      "SUPER+Shift+D Vesktop" \
+      "SUPER+E       Thunar" \
+      "SUPER+W       Brave" \
+      "SUPER+Shift+B Bluetooth manager" \
+      "SUPER+Shift+Q Close active window" \
+      "Print         Full screenshot" \
+      "Shift+Print   Region screenshot" \
+      "Ctrl+Print    Region screenshot + edit" \
+      "XF86 Audio/Brightness keys Media, volume, brightness" \
+      | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Sway keybinds"
+  '';
   waybarConfig = builtins.replaceStrings
-    [ "@WAYBAR_WEATHER@" "@ROFI_POWER_MENU@" ]
-    [ "${waybarWeather}/bin/waybar-weather" "${rofiPowerMenu}/bin/rofi-powermenu" ]
+    [ "@WAYBAR_WEATHER@" "@ROFI_POWER_MENU@" "@ROFI_KEYBINDS@" ]
+    [ "${waybarWeather}/bin/waybar-weather" "${rofiPowerMenu}/bin/rofi-powermenu" "${rofiKeybinds}/bin/rofi-keybinds" ]
     (builtins.readFile ../config/waybar/config);
   waybarStyle = builtins.readFile ../config/waybar/style.css;
   rofiTheme = ../config/rofi/theme.rasi;

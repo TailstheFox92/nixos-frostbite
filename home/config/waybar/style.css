@@ -61,6 +61,11 @@ window#waybar.bottom-dock {
   color: #8ec07c;
 }
 
+#custom-keybinds {
+  margin-left: 8px;
+  color: #fabd2f;
+}
+
 #pulseaudio {
   margin-left: 8px;
   color: #83a598;

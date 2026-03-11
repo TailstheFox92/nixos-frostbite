@@ -39,6 +39,11 @@ window#waybar {
   color: #94e2d5;
 }
 
+#custom-keybinds {
+  margin-left: 8px;
+  color: #f9e2af;
+}
+
 #pulseaudio {
   margin-left: 8px;
   color: #89b4fa;

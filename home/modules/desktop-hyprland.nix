@@ -174,9 +174,41 @@ let
         ;;
     esac
   '';
+  rofiKeybinds = pkgs.writeShellScriptBin "rofi-keybinds" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    printf '%s\n' \
+      "SUPER+Return  Launch terminal (alacritty)" \
+      "SUPER+D       App launcher" \
+      "SUPER+Shift+P Power menu" \
+      "SUPER+Shift+L Lock screen" \
+      "SUPER+Shift+D Vesktop" \
+      "SUPER+E       Thunar" \
+      "SUPER+W       Brave" \
+      "SUPER+Shift+B Bluetooth manager" \
+      "SUPER+Shift+Q Close active window" \
+      "SUPER+Arrows  Focus window" \
+      "SUPER+H/J/K/L Focus window" \
+      "SUPER+Shift+Arrows Move window" \
+      "SUPER+Shift+H/J/K/L Move window" \
+      "SUPER+F       Fullscreen" \
+      "SUPER+V       Toggle floating" \
+      "SUPER+Shift+Space Toggle floating" \
+      "SUPER+Shift+C Reload Hyprland" \
+      "SUPER+1..0    Switch workspace 1..10" \
+      "SUPER+Shift+1..0 Move to workspace 1..10" \
+      "SUPER+-       Toggle scratchpad workspace" \
+      "SUPER+Shift+- Send window to scratchpad" \
+      "Print         Full screenshot" \
+      "Shift+Print   Region screenshot" \
+      "Ctrl+Print    Region screenshot + edit" \
+      "XF86 Audio/Brightness keys Media, volume, brightness" \
+      | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Hyprland keybinds" -theme ${rofiTheme}
+  '';
   waybarConfig = builtins.replaceStrings
-    [ "@WAYBAR_WEATHER@" "@ROFI_POWER_MENU@" ]
-    [ "${waybarWeather}/bin/waybar-weather" "${rofiPowerMenu}/bin/rofi-powermenu" ]
+    [ "@WAYBAR_WEATHER@" "@ROFI_POWER_MENU@" "@ROFI_KEYBINDS@" ]
+    [ "${waybarWeather}/bin/waybar-weather" "${rofiPowerMenu}/bin/rofi-powermenu" "${rofiKeybinds}/bin/rofi-keybinds" ]
     (builtins.readFile ../config/waybar/cyclone-config);
   waybarStyle = builtins.readFile ../config/waybar/cyclone-style.css;
   rofiTheme = ../config/rofi/catppuccin-mocha.rasi;
@@ -246,8 +278,28 @@ in
         "$mod, W, exec, brave"
         "$mod SHIFT, B, exec, blueman-manager"
         "$mod SHIFT, Q, killactive"
+        "$mod, Left, movefocus, l"
+        "$mod, Right, movefocus, r"
+        "$mod, Up, movefocus, u"
+        "$mod, Down, movefocus, d"
+        "$mod, H, movefocus, l"
+        "$mod, L, movefocus, r"
+        "$mod, K, movefocus, u"
+        "$mod, J, movefocus, d"
+        "$mod SHIFT, Left, movewindow, l"
+        "$mod SHIFT, Right, movewindow, r"
+        "$mod SHIFT, Up, movewindow, u"
+        "$mod SHIFT, Down, movewindow, d"
+        "$mod SHIFT, H, movewindow, l"
+        "$mod SHIFT, L, movewindow, r"
+        "$mod SHIFT, K, movewindow, u"
+        "$mod SHIFT, J, movewindow, d"
         "$mod, F, fullscreen"
         "$mod, V, togglefloating"
+        "$mod SHIFT, space, togglefloating"
+        "$mod SHIFT, C, exec, ${pkgs.hyprland}/bin/hyprctl reload"
+        "$mod, minus, togglespecialworkspace, scratchpad"
+        "$mod SHIFT, minus, movetoworkspace, special:scratchpad"
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
         "$mod, 3, workspace, 3"

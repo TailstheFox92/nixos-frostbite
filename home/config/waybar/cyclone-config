@@ -4,7 +4,7 @@
     "position": "top",
     "height": 30,
     "modules-left": ["hyprland/workspaces"],
-    "modules-center": ["custom/notification", "clock"],
+    "modules-center": ["custom/notification", "clock", "custom/keybinds"],
     "modules-right": ["custom/weather", "pulseaudio", "cpu", "memory", "temperature", "network", "tray", "custom/power"],
     "hyprland/workspaces": {
       "disable-scroll": true,
@@ -53,6 +53,12 @@
       "format": "⏻",
       "tooltip": false,
       "on-click": "@ROFI_POWER_MENU@"
+    },
+    "custom/keybinds": {
+      "format": "󰌌",
+      "tooltip": true,
+      "tooltip-format": "Show keybinds",
+      "on-click": "@ROFI_KEYBINDS@"
     },
     "cpu": {
       "format": " {usage}%",
