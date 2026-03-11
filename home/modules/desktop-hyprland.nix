@@ -443,6 +443,11 @@ in
         font-size: 12px;
       }
 
+      .blank-window,
+      .floating-notifications.background {
+        background: transparent;
+      }
+
       .notification,
       .notification-content,
       .control-center,
