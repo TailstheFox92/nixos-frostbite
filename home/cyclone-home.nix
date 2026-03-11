@@ -141,6 +141,8 @@ in
     wayvr
     vrAlvrQuest3
     steam-run
+    blender
+    unityhub
 
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_8_0
