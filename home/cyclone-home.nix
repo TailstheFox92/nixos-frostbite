@@ -101,15 +101,22 @@
     unzip
 
     catppuccin-gtk
+    catppuccin-qt5ct
     papirus-icon-theme
     bibata-cursors
+    libsForQt5.qt5ct
+    qt6Packages.qt6ct
   ];
 
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.catppuccin-gtk;
-      name = "Catppuccin-Mocha-Standard-Lavender-Dark";
+      package = pkgs.catppuccin-gtk.override {
+        variant = "mocha";
+        accents = [ "lavender" ];
+        size = "standard";
+      };
+      name = "catppuccin-mocha-lavender-standard";
     };
     iconTheme = {
       package = pkgs.papirus-icon-theme;
@@ -146,9 +153,33 @@
     VISUAL = "nvim";
     GIT_EDITOR = "nvim";
     FILE_MANAGER = "thunar";
-    GTK_THEME = "Catppuccin-Mocha-Standard-Lavender-Dark";
+    GTK_THEME = "catppuccin-mocha-lavender-standard";
+    QT_QPA_PLATFORMTHEME = "qt5ct";
     XCURSOR_THEME = "Bibata-Modern-Ice";
     XCURSOR_SIZE = "24";
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "qtct";
+    style.name = "Fusion";
+    qt5ctSettings = {
+      Appearance = {
+        style = "Fusion";
+        icon_theme = "Papirus-Dark";
+        custom_palette = true;
+        color_scheme_path = "catppuccin-mocha-lavender.conf";
+      };
+    };
+
+    qt6ctSettings = {
+      Appearance = {
+        style = "Fusion";
+        icon_theme = "Papirus-Dark";
+        custom_palette = true;
+        color_scheme_path = "catppuccin-mocha-lavender.conf";
+      };
+    };
   };
 
   home.file.".config/fastfetch/logo.txt" = {

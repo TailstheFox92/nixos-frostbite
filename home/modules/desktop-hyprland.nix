@@ -206,6 +206,8 @@ in
       env = [
         "XCURSOR_SIZE,24"
         "XCURSOR_THEME,Bibata-Modern-Ice"
+        "GTK_THEME,catppuccin-mocha-lavender-standard"
+        "QT_QPA_PLATFORMTHEME,qt5ct"
       ];
 
       exec-once = [
