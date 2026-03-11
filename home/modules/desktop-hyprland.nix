@@ -184,6 +184,7 @@ let
       "SUPER+Shift+P Power menu" \
       "SUPER+Shift+L Lock screen" \
       "SUPER+Shift+D Vesktop" \
+      "SUPER+Shift+R Launch ALVR dashboard" \
       "SUPER+E       Thunar" \
       "SUPER+W       Brave" \
       "SUPER+Shift+B Bluetooth manager" \
@@ -274,6 +275,7 @@ in
         "$mod SHIFT, P, exec, ${rofiPowerMenu}/bin/rofi-powermenu"
         "$mod SHIFT, L, exec, ${lockScreen}/bin/lock-screen"
         "$mod SHIFT, D, exec, vesktop"
+        "$mod SHIFT, R, exec, vr-alvr-quest3"
         "$mod, E, exec, thunar"
         "$mod, W, exec, brave"
         "$mod SHIFT, B, exec, blueman-manager"
@@ -348,6 +350,9 @@ in
         "match:class ^(discord)$, workspace 3"
         "match:class ^(thunar)$, float on"
         "match:class ^(Steam)$, float on"
+        "match:class ^(steam|steamwebhelper)$, float on"
+        "match:class ^(vrmonitor|vrstartup|vrcompositor|vrserver)$, float on"
+        "match:title ^(SteamVR.*|.*SteamVR.*Status.*)$, float on"
       ];
     };
   };

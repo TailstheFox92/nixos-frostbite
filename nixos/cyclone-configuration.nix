@@ -14,15 +14,26 @@
   '';
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "kvm-amd" ];
+  boot.kernel.sysctl = {
+    # Lower latency + better throughput behavior for wireless PCVR streaming.
+    "net.core.default_qdisc" = "fq";
+    "net.ipv4.tcp_congestion_control" = "bbr";
+    "net.core.rmem_max" = 134217728;
+    "net.core.wmem_max" = 134217728;
+    "net.core.rmem_default" = 262144;
+    "net.core.wmem_default" = 262144;
+  };
 
   networking.hostName = "Cyclone";
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
 
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  security.polkit.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
@@ -56,12 +67,24 @@
 
   programs.gamemode.enable = true;
   programs.gamescope.enable = true;
+  programs.alvr = {
+    enable = true;
+    openFirewall = true;
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     gamescopeSession.enable = true;
     protontricks.enable = true;
+    extraPackages = with pkgs; [
+      libva
+      libdrm
+      mesa
+      libsForQt5.qt5.qtbase
+      libsForQt5.qt5.qtmultimedia
+      libsForQt5.qt5.qtwayland
+    ];
     extraCompatPackages = [
       pkgs.proton-ge-bin
     ];
@@ -109,6 +132,8 @@
     rofi
     calamares
     mangohud
+    android-tools
+    libva-utils
   ];
 
   nix = {

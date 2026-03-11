@@ -1,4 +1,50 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
+
+let
+  vrAlvrQuest3 = pkgs.writeShellScriptBin "vr-alvr-quest3" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    steamxr_json="$HOME/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json"
+    if [ -f "$steamxr_json" ]; then
+      export XR_RUNTIME_JSON="$steamxr_json"
+
+      # Make SteamVR the user-level default OpenXR runtime.
+      runtime_dir="$HOME/.config/openxr/1"
+      mkdir -p "$runtime_dir"
+      ln -sfn "$steamxr_json" "$runtime_dir/active_runtime.json"
+    fi
+
+    export LIBVA_DRIVER_NAME=radeonsi
+    export LIBVA_DRIVERS_PATH=/run/opengl-driver/lib/dri
+    export PRESSURE_VESSEL_GRAPHICS_PROVIDER=/run/opengl-driver
+    export PRESSURE_VESSEL_FILESYSTEMS_RO="''${PRESSURE_VESSEL_FILESYSTEMS_RO:+$PRESSURE_VESSEL_FILESYSTEMS_RO:}/run/opengl-driver:/run/opengl-driver-32"
+    export QT_QPA_PLATFORM=xcb
+    export SDL_VIDEODRIVER=x11
+    export GDK_BACKEND=x11
+
+    session_file="$HOME/.config/alvr/session.json"
+    if [ -f "$session_file" ]; then
+      # Stable profile: H264 + no foveated + hardware encoding enabled.
+      ${pkgs.gnused}/bin/sed -i \
+        -e 's/"force_sw_encoding"[[:space:]]*:[[:space:]]*true/"force_sw_encoding": false/g' \
+        -e 's/"force_software_encoding"[[:space:]]*:[[:space:]]*true/"force_software_encoding": false/g' \
+        -e 's/"use_separate_hand_trackers"[[:space:]]*:[[:space:]]*true/"use_separate_hand_trackers": false/g' \
+        -e 's/"variant"[[:space:]]*:[[:space:]]*"HEVC"/"variant": "H264"/g' \
+        -e 's/"variant"[[:space:]]*:[[:space:]]*"AV1"/"variant": "H264"/g' \
+        "$session_file"
+    fi
+
+    # Ensure ALVR dashboard is running for client discovery/pairing.
+    if ! ${pkgs.procps}/bin/pgrep -x alvr_dashboard >/dev/null 2>&1; then
+      ${pkgs.alvr}/bin/alvr_dashboard >/dev/null 2>&1 &
+      sleep 2
+    fi
+
+    # Launch only ALVR. Start SteamVR manually from the ALVR dashboard when ready.
+    exit 0
+  '';
+in
 
 {
   imports = [
@@ -89,6 +135,10 @@
     pamixer
     playerctl
     brightnessctl
+    alvr
+    wayvr
+    vrAlvrQuest3
+    steam-run
 
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_8_0
@@ -157,6 +207,13 @@
     QT_QPA_PLATFORMTHEME = "qt5ct";
     XCURSOR_THEME = "Bibata-Modern-Ice";
     XCURSOR_SIZE = "24";
+    RADV_PERFTEST = "gpl";
+    LIBVA_DRIVER_NAME = "radeonsi";
+    LIBVA_DRIVERS_PATH = "/run/opengl-driver/lib/dri";
+    QT_QPA_PLATFORM = "xcb";
+    SDL_VIDEODRIVER = "x11";
+    GDK_BACKEND = "x11";
+    XR_RUNTIME_JSON = "${config.home.homeDirectory}/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json";
   };
 
   qt = {

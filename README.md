@@ -89,3 +89,28 @@ If you only changed Home Manager content and want faster iteration:
 ```bash
 home-manager switch --flake .#gfernandez@Cyclone
 ```
+
+## Cyclone VR (ALVR + Quest 3)
+
+Cyclone is configured declaratively with:
+
+- `programs.alvr.enable = true` and firewall rules via `openFirewall`
+- Network tuning for lower-latency wireless streaming
+- `android-tools` for optional ADB/wired workflows
+- User helpers: `alvr`, `wlx-overlay-s`, and `vr-alvr-quest3`
+
+After rebuild:
+
+1. Open ALVR dashboard once and pair your Quest 3 client.
+2. Launch SteamVR with:
+
+```bash
+vr-alvr-quest3
+```
+
+3. Install/run VRChat from Steam in VR mode.
+
+Notes:
+
+- Fine-grained ALVR encoder/bitrate/headset settings are currently not exposed as stable NixOS module options (`programs.alvr` exposes `enable`, `openFirewall`, `package`).
+- Keep the PC on Ethernet and Quest 3 on 5/6 GHz Wi-Fi for best streaming performance.
