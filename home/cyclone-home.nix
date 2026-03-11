@@ -212,9 +212,6 @@ in
     RADV_PERFTEST = "gpl";
     LIBVA_DRIVER_NAME = "radeonsi";
     LIBVA_DRIVERS_PATH = "/run/opengl-driver/lib/dri";
-    QT_QPA_PLATFORM = "xcb";
-    SDL_VIDEODRIVER = "x11";
-    GDK_BACKEND = "x11";
     XR_RUNTIME_JSON = "${config.home.homeDirectory}/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json";
   };
 
