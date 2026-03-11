@@ -6,6 +6,12 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.extraInstallCommands = ''
+    currentGeneration="$(readlink -f /nix/var/nix/profiles/system | sed -E 's|.*/system-([0-9]+)-link|\1|')"
+    if [ -n "$currentGeneration" ]; then
+      bootctl set-default "nixos-generation-''${currentGeneration}.conf"
+    fi
+  '';
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "kvm-amd" ];
 
