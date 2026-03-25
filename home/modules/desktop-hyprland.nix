@@ -435,7 +435,7 @@ in
       "timeout-low" = 3;
       "timeout-critical" = 0;
       "fit-to-screen" = true;
-      "cssPriority" = "application";
+      "cssPriority" = "user";
     };
     style = ''
       * {
@@ -445,11 +445,31 @@ in
 
       .blank-window,
       .floating-notifications.background {
-        background: transparent;
+        background: transparent !important;
       }
 
-      .notification,
-      .notification-content,
+      .floating-notifications {
+        background: transparent !important;
+      }
+
+      .notification-row,
+      .notification-group,
+      .control-center .notification-row {
+        margin: 4px 8px;
+      }
+
+      .notification-row:focus,
+      .notification-group:focus,
+      .notification-background {
+        background: transparent !important;
+      }
+
+      .notification-row .notification-background {
+        padding: 0;
+        background: transparent !important;
+      }
+
+      .notification-row .notification-background .notification,
       .control-center,
       .widget-title,
       .widget-dnd,
@@ -458,6 +478,29 @@ in
         color: #cdd6f4;
         border: 1px solid #cba6f7;
         border-radius: 6px;
+      }
+
+      .notification {
+        padding: 6px;
+      }
+
+      .notification-row .notification-background .notification .notification-default-action,
+      .notification-row .notification-background .notification .notification-action,
+      .notification-row .notification-background .notification .notification-default-action .notification-content {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .control-center {
+        padding: 8px;
+      }
+
+      .notification .summary,
+      .notification .time,
+      .notification .body,
+      .widget-title > label {
+        color: #cdd6f4;
       }
 
       .notification.critical,
@@ -472,8 +515,19 @@ in
         border-radius: 6px;
       }
 
+      .widget-dnd > switch {
+        background: #313244;
+        border: 1px solid #cba6f7;
+        border-radius: 12px;
+      }
+
       .widget-dnd > switch:checked {
         background: #cba6f7;
+      }
+
+      .widget-buttons-grid > flowbox > flowboxchild > button:hover,
+      .close-button:hover {
+        background: #313244;
       }
     '';
   };
