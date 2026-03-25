@@ -77,6 +77,7 @@
     ffmpegthumbnailer  # Video thumbnails
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
+    firefox # Backup web browser for sites that don't work well with Brave
     ruffle # Flash content runtime (Adobe Flash replacement)
     alacritty  # Terminal emulator
     mousepad  # Lightweight GUI text editor

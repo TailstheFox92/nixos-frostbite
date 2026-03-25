@@ -174,6 +174,7 @@ in
     ffmpegthumbnailer
     webp-pixbuf-loader
     brave
+    firefox
     alacritty
     mousepad
     neovim
@@ -192,7 +193,7 @@ in
     pamixer
     playerctl
     brightnessctl
-    alvrIf unity-alcom -version fails, paste that exact output and I’ll patch the wrapper in one pass.
+    alvr #If unity-alcom version fails, paste that exact output and I’ll patch the wrapper in one pass.
     
     
     wayvr
