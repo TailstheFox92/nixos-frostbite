@@ -199,6 +199,7 @@ in
     wayvr
     vrAlvrQuest3
     unityAlcom
+    prismlauncher
     steam-run
     blender
     unityhub
@@ -276,6 +277,7 @@ in
     LIBVA_DRIVER_NAME = "radeonsi";
     LIBVA_DRIVERS_PATH = "/run/opengl-driver/lib/dri";
     XR_RUNTIME_JSON = "${config.home.homeDirectory}/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json";
+    PRISMLAUNCHER_JAVA_PATHS = "${pkgs.jdk21}/bin/java:${pkgs.jdk17}/bin/java:${pkgs.jdk8}/bin/java";
   };
 
   qt = {
