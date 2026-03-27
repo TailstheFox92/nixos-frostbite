@@ -6,6 +6,42 @@ Multi-host NixOS flake with Home Manager profiles.
 
 - `Frostbite` (existing machine)
 - `Cyclone` (AMD desktop, user `gfernandez`, Hyprland + Catppuccin Mocha)
+- `Snowflake` (sample FoundryVTT server profile for test laptop migration)
+
+## Snowflake test deployment (FoundryVTT sample)
+
+`Snowflake` is intentionally server-focused and keeps Foundry data in `/var/lib/foundryvtt/data` with daily local backups in `/var/lib/foundryvtt/backups`.
+
+1) Generate hardware config on the target test laptop and copy it into this repo:
+
+```bash
+sudo nixos-generate-config
+sudo cp /etc/nixos/hardware-configuration.nix ./nixos/snowflake-hardware-configuration.nix
+```
+
+2) Create Foundry secrets file on the target host:
+
+```bash
+sudo install -d -m 0750 /etc/foundry
+sudo cp /etc/foundry/foundry.env.example /etc/foundry/foundry.env
+sudo chmod 0600 /etc/foundry/foundry.env
+```
+
+Then edit `/etc/foundry/foundry.env` with your Foundry account and admin key.
+
+3) Deploy from Cyclone to the test laptop:
+
+```bash
+sudo nixos-rebuild switch --flake .#Snowflake --target-host root@<snowflake-ip-or-dns>
+```
+
+4) Copy campaign data backup into place (after first deploy):
+
+```bash
+sudo systemctl stop podman-foundryvtt.service
+sudo tar -C /var/lib/foundryvtt/data -xzf /path/to/foundry-backup.tar.gz
+sudo systemctl start podman-foundryvtt.service
+```
 
 ## Quick validation
 
