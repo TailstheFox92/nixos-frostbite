@@ -21,6 +21,18 @@
   networking.hostName = "Cyclone";
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
+  networking.hosts."127.0.0.1" = [ "searx.home.arpa" ];
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
 
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -102,6 +114,41 @@
       "org.vinegarhq.Sober"
     ];
   };
+
+  services.searx = {
+    enable = true;
+    redisCreateLocally = true;
+    configureNginx = true;
+    domain = "searx.home.arpa";
+    settings = {
+      server = {
+        bind_address = "127.0.0.1";
+        port = 8080;
+        secret_key = "JvwMNKUmen*wL3M[";
+        limiter = true;
+        image_proxy = true;
+      };
+    };
+  };
+
+  services.nginx = {
+    enable = true;
+    virtualHosts.${config.services.searx.domain} = {
+      serverAliases = [ "cyclone.local" "searx.local" ];
+      locations."/".extraConfig = ''
+        allow 127.0.0.1;
+        allow ::1;
+        allow 10.0.0.0/8;
+        allow 172.16.0.0/12;
+        allow 192.168.0.0/16;
+        allow fc00::/7;
+        allow fe80::/10;
+        deny all;
+      '';
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 80 ];
 
   programs.gamemode.enable = true;
   programs.gamescope.enable = true;
