@@ -89,7 +89,6 @@
     thunar  # File manager
     thunar-volman  # Automount and removable media management for Thunar
     thunar-archive-plugin  # Archive create/extract integration inside Thunar
-    thunar-dropbox-plugin  # Thunar context-menu integration for Dropbox
     tumbler  # Thumbnail service used by Thunar previews
     ffmpegthumbnailer  # Video thumbnails
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
@@ -100,7 +99,7 @@
     mousepad  # Lightweight GUI text editor
     neovim  # Terminal-based text editor
     fastfetch # For the funny ascii system info in the terminal
-    dropbox # Dropbox client
+    maestral # Dropbox-compatible sync daemon
     swaynotificationcenter # Notification daemon + control center
     vesktop # Discord client with Vencord pre-applied
     grim
@@ -152,17 +151,17 @@
     size = 24;
   };
 
-  # Start Dropbox automatically in the user session
-  systemd.user.services.dropbox = {
+  # Start Maestral automatically in the user session
+  systemd.user.services.maestral = {
     Unit = {
-      Description = "Dropbox service";
+      Description = "Maestral service";
     };
     Install = {
       WantedBy = [ "default.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.dropbox}/bin/dropbox start -i";
-      ExecStop = "${pkgs.dropbox}/bin/dropbox stop";
+      ExecStart = "${pkgs.maestral}/bin/maestral start --foreground";
+      ExecStop = "${pkgs.maestral}/bin/maestral stop";
       Restart = "on-failure";
     };
   };

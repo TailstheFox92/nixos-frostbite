@@ -186,7 +186,6 @@ in
     thunar
     thunar-volman
     thunar-archive-plugin
-    thunar-dropbox-plugin
     tumbler
     ffmpegthumbnailer
     webp-pixbuf-loader
@@ -196,7 +195,7 @@ in
     mousepad
     neovim
     fastfetch
-    dropbox
+    maestral
     swaynotificationcenter
     vesktop
     grim
@@ -265,16 +264,16 @@ in
     size = 24;
   };
 
-  systemd.user.services.dropbox = {
+  systemd.user.services.maestral = {
     Unit = {
-      Description = "Dropbox service";
+      Description = "Maestral service";
     };
     Install = {
       WantedBy = [ "default.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.dropbox}/bin/dropbox start -i";
-      ExecStop = "${pkgs.dropbox}/bin/dropbox stop";
+      ExecStart = "${pkgs.maestral}/bin/maestral start --foreground";
+      ExecStop = "${pkgs.maestral}/bin/maestral stop";
       Restart = "on-failure";
     };
   };
