@@ -219,6 +219,9 @@
     mangohud
     android-tools
     libva-utils
+    rocmPackages.rocm-runtime
+    rocmPackages.rocminfo
+    rocmPackages.rocm-smi
   ];
 
   nix = {

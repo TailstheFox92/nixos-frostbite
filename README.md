@@ -114,3 +114,58 @@ Notes:
 
 - Fine-grained ALVR encoder/bitrate/headset settings are currently not exposed as stable NixOS module options (`programs.alvr` exposes `enable`, `openFirewall`, `package`).
 - Keep the PC on Ethernet and Quest 3 on 5/6 GHz Wi-Fi for best streaming performance.
+
+## Cyclone local image generation (ComfyUI + ROCm)
+
+Cyclone includes a declarative ComfyUI user service and helper commands.
+
+### Apply configuration
+
+```bash
+cd ~/nixos-frostbite
+sudo nixos-rebuild switch --flake .#Cyclone
+home-manager switch --flake .#gfernandez@Cyclone
+```
+
+### Service lifecycle
+
+```bash
+comfyui-bootstrap
+systemctl --user daemon-reload
+systemctl --user enable --now comfyui
+comfyui-status
+comfyui-logs
+```
+
+ComfyUI listens on `http://127.0.0.1:8188`.
+
+### Helper commands
+
+```bash
+comfyui-bootstrap     # clone + venv + requirements (+ ROCm torch attempt)
+comfyui-run           # run ComfyUI manually in foreground
+comfyui-update        # git pull + refresh python dependencies
+comfyui-gpu-check     # rocminfo + torch backend visibility check
+comfyui-open          # open local UI URL
+```
+
+### Data and cache paths
+
+- Repo: `~/AI/ComfyUI`
+- Data root: `~/.local/share/comfyui`
+- Hugging Face cache: `~/.local/share/comfyui/cache/huggingface`
+
+### Troubleshooting
+
+If ROCm acceleration is unavailable, the service still runs with CPU fallback. Use:
+
+```bash
+comfyui-gpu-check
+journalctl --user -u comfyui -n 200 --no-pager
+```
+
+If bootstrap dependencies changed, rerun:
+
+```bash
+comfyui-bootstrap --force
+```

@@ -104,6 +104,7 @@ in
 {
   imports = [
     ./modules/desktop-hyprland.nix
+    ./modules/ai-comfyui.nix
     ./modules/vscode-catppuccin.nix
     ./modules/zsh.nix
   ];
