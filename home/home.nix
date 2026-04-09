@@ -63,6 +63,23 @@
       "x-scheme-handler/unknown" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "inode/directory" = [ "Thunar.desktop" ];
       "application/x-gnome-saved-search" = [ "Thunar.desktop" ];
+      "application/zip" = [ "xarchiver.desktop" ];
+      "application/x-zip-compressed" = [ "xarchiver.desktop" ];
+      "application/x-7z-compressed" = [ "xarchiver.desktop" ];
+      "application/x-rar" = [ "xarchiver.desktop" ];
+      "application/vnd.rar" = [ "xarchiver.desktop" ];
+      "application/x-tar" = [ "xarchiver.desktop" ];
+      "application/x-compressed-tar" = [ "xarchiver.desktop" ];
+      "application/x-bzip-compressed-tar" = [ "xarchiver.desktop" ];
+      "application/x-xz-compressed-tar" = [ "xarchiver.desktop" ];
+      "application/gzip" = [ "xarchiver.desktop" ];
+      "application/x-gzip" = [ "xarchiver.desktop" ];
+      "application/bzip2" = [ "xarchiver.desktop" ];
+      "application/x-bzip2" = [ "xarchiver.desktop" ];
+      "application/x-xz" = [ "xarchiver.desktop" ];
+      "application/zstd" = [ "xarchiver.desktop" ];
+      "application/x-zstd" = [ "xarchiver.desktop" ];
+      "application/java-archive" = [ "xarchiver.desktop" ];
     };
   };
 
@@ -102,8 +119,16 @@
     icu
     nuget
     ilspycmd
+    xarchiver
     zip
     unzip
+    gnutar
+    gzip
+    bzip2
+    xz
+    zstd
+    p7zip
+    unrar
 
 
     # theming packages
