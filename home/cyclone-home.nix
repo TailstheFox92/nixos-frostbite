@@ -199,7 +199,7 @@ in
     fastfetch
     maestral
     swaynotificationcenter
-    vesktop
+    discord
     grim
     slurp
     swappy

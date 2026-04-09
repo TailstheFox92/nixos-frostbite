@@ -102,7 +102,7 @@
     fastfetch # For the funny ascii system info in the terminal
     maestral # Cloud sync daemon
     swaynotificationcenter # Notification daemon + control center
-    vesktop # Discord client with Vencord pre-applied
+    discord # Standard Discord client
     grim
     slurp
     swappy
