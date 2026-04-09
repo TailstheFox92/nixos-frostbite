@@ -119,6 +119,11 @@
   nix = {
     package = pkgs.nix;
     extraOptions = "experimental-features = nix-command flakes";
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   system.stateVersion = "24.05";  # Adjust based on your NixOS version

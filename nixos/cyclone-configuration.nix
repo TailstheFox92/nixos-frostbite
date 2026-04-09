@@ -224,6 +224,11 @@
   nix = {
     package = pkgs.nix;
     extraOptions = "experimental-features = nix-command flakes";
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
