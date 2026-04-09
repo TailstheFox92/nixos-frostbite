@@ -100,7 +100,7 @@
     mousepad  # Lightweight GUI text editor
     neovim  # Terminal-based text editor
     fastfetch # For the funny ascii system info in the terminal
-    maestral # Dropbox-compatible sync daemon
+    maestral # Cloud sync daemon
     swaynotificationcenter # Notification daemon + control center
     vesktop # Discord client with Vencord pre-applied
     grim
@@ -162,6 +162,11 @@
       WantedBy = [ "default.target" ];
     };
     Service = {
+      ExecStartPre = [
+        "${pkgs.coreutils}/bin/mkdir -p %h/Dropbox"
+        "${pkgs.maestral}/bin/maestral config set path %h/Dropbox"
+        "${pkgs.maestral}/bin/maestral autostart -Y"
+      ];
       ExecStart = "${pkgs.maestral}/bin/maestral start --foreground";
       ExecStop = "${pkgs.maestral}/bin/maestral stop";
       Restart = "on-failure";

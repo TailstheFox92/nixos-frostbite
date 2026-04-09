@@ -274,6 +274,11 @@ in
       WantedBy = [ "default.target" ];
     };
     Service = {
+      ExecStartPre = [
+        "${pkgs.coreutils}/bin/mkdir -p ${config.home.homeDirectory}/Dropbox"
+        "${pkgs.maestral}/bin/maestral config set path ${config.home.homeDirectory}/Dropbox"
+        "${pkgs.maestral}/bin/maestral autostart -Y"
+      ];
       ExecStart = "${pkgs.maestral}/bin/maestral start --foreground";
       ExecStop = "${pkgs.maestral}/bin/maestral stop";
       Restart = "on-failure";

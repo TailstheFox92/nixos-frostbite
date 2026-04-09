@@ -16,7 +16,7 @@
 ## Project-specific patterns
 - Keep generated config payloads embedded as Nix strings in `home/home.nix` (`waybarConfig`, `waybarStyle`, Rofi theme) and written via `home.file`.
 - Local helper scripts are created with `pkgs.writeShellScriptBin` (examples: `waybar-weather`, `rofi-debug-launcher`) and referenced by absolute Nix store paths.
-- Prefer declarative user services in Home Manager (`systemd.user.services.dropbox`) over ad-hoc startup scripts.
+- Prefer declarative user services in Home Manager (`systemd.user.services.maestral`) over ad-hoc startup scripts.
 - Theming is intentionally Gruvbox-centered across GTK/Qt/cursor/Waybar/Mako; preserve consistency when changing UI settings.
 - Keep comments concise and practical; this repo uses explanatory inline comments heavily.
 
