@@ -121,6 +121,7 @@ in
 
   programs.git = {
     enable = true;
+    signing.format = "openpgp";
     settings.user = {
       name = "Gabriel Fernandez";
       email = "gfernandez@mailfence.com";
@@ -242,6 +243,7 @@ in
 
   gtk = {
     enable = true;
+    gtk4.theme = config.gtk.theme;
     theme = {
       package = pkgs.catppuccin-gtk.override {
         variant = "mocha";

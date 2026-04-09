@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -22,6 +22,7 @@
 
   programs.git = {
     enable = true;
+    signing.format = "openpgp";
     settings.user = {
       name = "Gabriel Fernandez";
       email = "gfernandez@mailfence.com";
@@ -133,6 +134,7 @@
 
   gtk = {
     enable = true;
+    gtk4.theme = config.gtk.theme;
     theme = {
       package = pkgs.gruvbox-dark-gtk;
       name = "gruvbox-dark";
