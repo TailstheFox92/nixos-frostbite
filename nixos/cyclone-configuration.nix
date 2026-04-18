@@ -7,6 +7,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Keep only recent generations in the boot menu to avoid stale entries.
+  boot.loader.systemd-boot.configurationLimit = 20;
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernel.sysctl = {
     # Lower latency + better throughput behavior for wireless PCVR streaming.
