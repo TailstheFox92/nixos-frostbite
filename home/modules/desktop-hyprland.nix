@@ -343,14 +343,31 @@ in
       ];
 
       windowrule = [
-        "match:class ^(code)$, workspace 1"
-        "match:class ^(Code)$, workspace 1"
+        # Workspace assignments follow the Waybar icon map:
+        # 1 terminal, 2 web, 3 chat, 4 files, 5 gaming, 6 code, 10 settings.
+        "match:class ^(Alacritty)$, workspace 1"
         "match:class ^(Brave-browser)$, workspace 2"
+        "match:class ^(firefox)$, workspace 2"
         "match:class ^(vesktop)$, workspace 3"
         "match:class ^(discord)$, workspace 3"
-        "match:class ^(thunar)$, float on"
-        "match:class ^(Steam)$, float on"
-        "match:class ^(steam|steamwebhelper)$, float on"
+        "match:class ^(thunar)$, workspace 4"
+        "match:class ^(Steam)$, workspace 5"
+        "match:class ^(code|Code)$, workspace 6"
+        "match:class ^(pavucontrol)$, workspace 10"
+        "match:class ^(blueman-manager)$, workspace 10"
+
+        # Keep the main Steam client tiled, but float Steam dialogs/popups.
+        "match:class ^(Steam)$, float off"
+        "match:title ^(Friends List)$, float on"
+        "match:title ^(Properties - .*)$, float on"
+        "match:title ^(.* - Properties)$, float on"
+        "match:title ^(.*Properties.*)$, float on"
+        "match:title ^(Settings)$, float on"
+        "match:title ^(Screenshot Uploader)$, float on"
+        "match:title ^(Steam Guard)$, float on"
+        "match:title ^(.* - Chat)$, float on"
+        "match:class ^(steamwebhelper)$, float on"
+
         "match:class ^(vrmonitor|vrstartup|vrcompositor|vrserver)$, float on"
         "match:title ^(SteamVR.*|.*SteamVR.*Status.*)$, float on"
       ];
