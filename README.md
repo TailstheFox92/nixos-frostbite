@@ -90,6 +90,18 @@ If you only changed Home Manager content and want faster iteration:
 home-manager switch --flake .#gfernandez@Cyclone
 ```
 
+## Cyclone AppImage support
+
+Cyclone enables NixOS AppImage support declaratively via `programs.appimage` and includes `appimage-run`.
+
+After rebuild, you can run AppImages with:
+
+```bash
+appimage-run /path/to/YourApp.AppImage
+```
+
+If an AppImage has become part of your permanent toolchain, you can manage it through Nix by packaging it with `pkgs.appimageTools.wrapType2` in a Nix module/overlay and adding that package to your config.
+
 ## Cyclone VR (ALVR + Quest 3)
 
 Cyclone is configured declaratively with:

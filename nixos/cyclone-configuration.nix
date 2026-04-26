@@ -1,5 +1,43 @@
 { config, pkgs, lib, ... }:
 
+let
+  # Cyclone kernel profile selector:
+  # - "custom-gaming": zen-based kernel + local patch hooks (default)
+  # - "cachyos": uses CachyOS kernel package if provided by pkgs/overlay
+  # - "default": nixpkgs default kernel packages
+  kernelProfile = "custom-gaming";
+
+  # Add local patch paths here when you are ready to fine-tune kernel behavior.
+  # Example: ../patches/kernel/0001-my-scheduler-tweak.patch
+  customKernelPatchFiles = [ ];
+
+  customGamingKernelPackages = pkgs.linuxPackages_zen.extend (_final: prev: {
+    kernel = prev.kernel.override {
+      kernelPatches = (prev.kernel.kernelPatches or [ ]) ++ map (patchPath: {
+        name = "local-${builtins.baseNameOf (toString patchPath)}";
+        patch = patchPath;
+      }) customKernelPatchFiles;
+
+      # Balanced defaults for gaming responsiveness without going fully aggressive.
+      extraConfig = (prev.kernel.extraConfig or "") + ''
+        HZ_1000 y
+        SCHED_AUTOGROUP y
+        TRANSPARENT_HUGEPAGE_ALWAYS y
+      '';
+    };
+  });
+
+  selectedKernelPackages =
+    if kernelProfile == "custom-gaming" then
+      customGamingKernelPackages
+    else if kernelProfile == "cachyos" then
+      if pkgs ? linuxPackages_cachyos then
+        pkgs.linuxPackages_cachyos
+      else
+        throw "kernelProfile is 'cachyos' but pkgs.linuxPackages_cachyos is unavailable. Add a CachyOS kernel overlay/input first."
+    else
+      pkgs.linuxPackages;
+in
 {
   imports = [
     ./cyclone-hardware-configuration.nix
@@ -9,6 +47,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   # Keep only recent generations in the boot menu to avoid stale entries.
   boot.loader.systemd-boot.configurationLimit = 20;
+  boot.kernelPackages = selectedKernelPackages;
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernel.sysctl = {
     # Lower latency + better throughput behavior for wireless PCVR streaming.
@@ -177,6 +216,11 @@
     ];
   };
 
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
+
   nixpkgs.config.allowUnfree = true;
 
   programs.hyprland = {
@@ -218,6 +262,7 @@
     foot
     rofi
     calamares
+    appimage-run
     mangohud
     android-tools
     libva-utils

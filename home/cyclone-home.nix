@@ -159,11 +159,13 @@ in
       "application/xhtml+xml" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/http" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/https" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
+      "x-scheme-handler/nxm" = [ "helldivers2-arsenal-nxm.desktop" ];
       "x-scheme-handler/about" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "x-scheme-handler/unknown" = [ "brave-browser.desktop" "com.brave.Browser.desktop" ];
       "inode/directory" = [ "Thunar.desktop" ];
       "application/x-gnome-saved-search" = [ "Thunar.desktop" ];
       "application/zip" = [ "xarchiver.desktop" ];
+      "application/x-zip" = [ "xarchiver.desktop" ];
       "application/x-zip-compressed" = [ "xarchiver.desktop" ];
       "application/x-7z-compressed" = [ "xarchiver.desktop" ];
       "application/x-rar" = [ "xarchiver.desktop" ];
@@ -183,11 +185,22 @@ in
     };
   };
 
+  xdg.desktopEntries.helldivers2-arsenal-nxm = {
+    name = "Helldivers 2 Arsenal (Nexus Mods)";
+    genericName = "NXM Protocol Handler";
+    comment = "Open Nexus Mods nxm links in Helldivers 2 Arsenal";
+    exec = "${helldivers2ArsenalRun}/bin/helldivers2-arsenal %u";
+    terminal = false;
+    categories = [ "Game" "Utility" ];
+    mimeType = [ "x-scheme-handler/nxm" ];
+  };
+
   home.packages = with pkgs; [
     rofi
     thunar
     thunar-volman
     thunar-archive-plugin
+    xarchiver
     tumbler
     ffmpegthumbnailer
     webp-pixbuf-loader
@@ -223,6 +236,11 @@ in
     unityhub
     alcom
     vrc-get
+    wineWow64Packages.waylandFull
+    winetricks
+    protontricks
+    helldivers2ArsenalSetup
+    helldivers2ArsenalRun
 
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_8_0
