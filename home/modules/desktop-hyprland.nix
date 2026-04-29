@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  wallpaperPath = "${config.home.homeDirectory}/.local/share/backgrounds/default-wallpaper.png";
+  wallpaperPath = "${config.home.homeDirectory}/.local/share/backgrounds/default-wallpaper.jpg";
   lockScreen = pkgs.writeShellScriptBin "lock-screen" ''
     #!/usr/bin/env sh
     exec ${pkgs.swaylock}/bin/swaylock -f -i ${wallpaperPath} -s fill
