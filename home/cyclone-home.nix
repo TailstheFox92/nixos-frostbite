@@ -185,16 +185,6 @@ in
     };
   };
 
-  xdg.desktopEntries.helldivers2-arsenal-nxm = {
-    name = "Helldivers 2 Arsenal (Nexus Mods)";
-    genericName = "NXM Protocol Handler";
-    comment = "Open Nexus Mods nxm links in Helldivers 2 Arsenal";
-    exec = "${helldivers2ArsenalRun}/bin/helldivers2-arsenal %u";
-    terminal = false;
-    categories = [ "Game" "Utility" ];
-    mimeType = [ "x-scheme-handler/nxm" ];
-  };
-
   home.packages = with pkgs; [
     rofi
     thunar
@@ -239,8 +229,6 @@ in
     wineWow64Packages.waylandFull
     winetricks
     protontricks
-    helldivers2ArsenalSetup
-    helldivers2ArsenalRun
 
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_8_0

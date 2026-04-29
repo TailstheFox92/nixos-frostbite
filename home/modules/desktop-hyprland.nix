@@ -549,8 +549,8 @@ in
     '';
   };
 
-  home.file.".local/share/backgrounds/default-wallpaper.png" = {
-    source = ../assets/avali-wallpaper.png;
+  home.file.".local/share/backgrounds/default-wallpaper.jpg" = {
+    source = ../assets/Background.jpg;
   };
 
   home.file.".config/waybar/config" = {

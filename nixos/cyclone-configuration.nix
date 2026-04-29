@@ -221,6 +221,16 @@ in
     binfmt = true;
   };
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      # Temporary workaround: ALVR 20.14.1 test binary fails to load libopenvr_api
+      # in nixpkgs unstable after flake updates. Skip tests to unblock rebuilds.
+      alvr = prev.alvr.overrideAttrs (_: {
+        doCheck = false;
+      });
+    })
+  ];
+
   nixpkgs.config.allowUnfree = true;
 
   programs.hyprland = {
