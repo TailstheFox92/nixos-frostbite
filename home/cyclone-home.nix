@@ -185,12 +185,31 @@ in
     };
   };
 
+  # Keep standard user folders present for file managers and desktop apps.
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    desktop = "$HOME/Desktop";
+    documents = "$HOME/Documents";
+    download = "$HOME/Downloads";
+    music = "$HOME/Music";
+    pictures = "$HOME/Pictures";
+    publicShare = "$HOME/Public";
+    templates = "$HOME/Templates";
+    videos = "$HOME/Videos";
+  };
+
   home.packages = with pkgs; [
+    xdg-user-dirs
+    xdg-utils
+    gvfs
+    trash-cli
     rofi
     thunar
     thunar-volman
     thunar-archive-plugin
     xarchiver
+    file-roller
     tumbler
     ffmpegthumbnailer
     webp-pixbuf-loader
@@ -239,6 +258,8 @@ in
     ilspycmd
     zip
     unzip
+    p7zip
+    unrar
 
     catppuccin-gtk
     catppuccin-qt5ct

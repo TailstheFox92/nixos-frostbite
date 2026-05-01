@@ -84,12 +84,32 @@
     };
   };
 
+  # Keep standard user folders present for file managers and desktop apps.
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    desktop = "$HOME/Desktop";
+    documents = "$HOME/Documents";
+    download = "$HOME/Downloads";
+    music = "$HOME/Music";
+    pictures = "$HOME/Pictures";
+    publicShare = "$HOME/Public";
+    templates = "$HOME/Templates";
+    videos = "$HOME/Videos";
+  };
+
   # Install user packages
   home.packages = with pkgs; [
+    xdg-user-dirs  # User directories helper used by desktop environments
+    xdg-utils  # XDG helpers for desktop file/mime interactions
+    gvfs  # Virtual filesystem backend used by Thunar for Trash support
+    trash-cli  # CLI fallback for freedesktop trash operations
     rofi  # Application launcher
     thunar  # File manager
     thunar-volman  # Automount and removable media management for Thunar
     thunar-archive-plugin  # Archive create/extract integration inside Thunar
+    xarchiver  # Archive manager used by Thunar archive plugin
+    file-roller  # Provides extract-here/extract-to archive actions
     tumbler  # Thumbnail service used by Thunar previews
     ffmpegthumbnailer  # Video thumbnails
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
@@ -121,6 +141,8 @@
     ilspycmd
     zip
     unzip
+    p7zip
+    unrar
 
 
     # theming packages
