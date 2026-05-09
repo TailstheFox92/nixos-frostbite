@@ -41,7 +41,11 @@ let
       sleep 2
     fi
 
-    # Launch only ALVR. Start SteamVR manually from the ALVR dashboard when ready.
+    # Launch SteamVR in the same scoped environment so only VR apps inherit XR runtime.
+    if ! ${pkgs.procps}/bin/pgrep -f "SteamVR/bin/.*/vrmonitor" >/dev/null 2>&1; then
+      ${pkgs.steam}/bin/steam -applaunch 250820 >/dev/null 2>&1 &
+    fi
+
     exit 0
   '';
 
@@ -343,7 +347,6 @@ in
     RADV_PERFTEST = "gpl";
     LIBVA_DRIVER_NAME = "radeonsi";
     LIBVA_DRIVERS_PATH = "/run/opengl-driver/lib/dri";
-    XR_RUNTIME_JSON = "${config.home.homeDirectory}/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json";
     PRISMLAUNCHER_JAVA_PATHS = "${pkgs.jdk21}/bin/java:${pkgs.jdk17}/bin/java:${pkgs.jdk8}/bin/java";
   };
 
