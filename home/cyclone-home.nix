@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   vrAlvrQuest3 = pkgs.writeShellScriptBin "vr-alvr-quest3" ''
@@ -189,6 +189,7 @@ in
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
+    setSessionVariables = false;
     desktop = "$HOME/Desktop";
     documents = "$HOME/Documents";
     download = "$HOME/Downloads";
@@ -198,6 +199,20 @@ in
     templates = "$HOME/Templates";
     videos = "$HOME/Videos";
   };
+
+  home.activation.ensureUserDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p \
+      "$HOME/Desktop" \
+      "$HOME/Documents" \
+      "$HOME/Downloads" \
+      "$HOME/Music" \
+      "$HOME/Pictures" \
+      "$HOME/Public" \
+      "$HOME/Templates" \
+      "$HOME/Videos" \
+      "$HOME/.local/share/Trash/files" \
+      "$HOME/.local/share/Trash/info"
+  '';
 
   home.packages = with pkgs; [
     xdg-user-dirs
@@ -215,6 +230,7 @@ in
     webp-pixbuf-loader
     brave
     firefox
+    libreoffice
     alacritty
     mousepad
     neovim

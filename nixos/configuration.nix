@@ -42,6 +42,9 @@
     pulse.enable = true;
   };
 
+  # Provide GIO virtual filesystem backends (including trash:/// used by Thunar).
+  services.gvfs.enable = true;
+
   # User configuration
   users.users.qu1ck51lv3r = {
     isNormalUser = true;

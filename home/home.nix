@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -88,6 +88,7 @@
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
+    setSessionVariables = false;
     desktop = "$HOME/Desktop";
     documents = "$HOME/Documents";
     download = "$HOME/Downloads";
@@ -97,6 +98,20 @@
     templates = "$HOME/Templates";
     videos = "$HOME/Videos";
   };
+
+  home.activation.ensureUserDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p \
+      "$HOME/Desktop" \
+      "$HOME/Documents" \
+      "$HOME/Downloads" \
+      "$HOME/Music" \
+      "$HOME/Pictures" \
+      "$HOME/Public" \
+      "$HOME/Templates" \
+      "$HOME/Videos" \
+      "$HOME/.local/share/Trash/files" \
+      "$HOME/.local/share/Trash/info"
+  '';
 
   # Install user packages
   home.packages = with pkgs; [
@@ -115,6 +130,7 @@
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
     firefox # Backup web browser for sites that don't work well with Brave
+    libreoffice # Office suite
     ruffle # Flash content runtime (Adobe Flash replacement)
     alacritty  # Terminal emulator
     mousepad  # Lightweight GUI text editor

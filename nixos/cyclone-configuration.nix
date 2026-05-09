@@ -102,6 +102,9 @@ in
     pulse.enable = true;
   };
 
+  # Provide GIO virtual filesystem backends (including trash:/// used by Thunar).
+  services.gvfs.enable = true;
+
   users.users.gfernandez = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
