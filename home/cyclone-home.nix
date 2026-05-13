@@ -235,6 +235,7 @@ in
     brave
     firefox
     libreoffice
+    gimp
     alacritty
     mousepad
     neovim

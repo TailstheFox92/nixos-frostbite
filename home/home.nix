@@ -131,6 +131,7 @@
     brave  # Web browser
     firefox # Backup web browser for sites that don't work well with Brave
     libreoffice # Office suite
+    gimp # Image editor
     ruffle # Flash content runtime (Adobe Flash replacement)
     alacritty  # Terminal emulator
     mousepad  # Lightweight GUI text editor
