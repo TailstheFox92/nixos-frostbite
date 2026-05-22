@@ -130,6 +130,9 @@
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
     firefox # Backup web browser for sites that don't work well with Brave
+    ani-cli # Terminal anime streaming/downloader helper
+    mpv # Video player used by ani-cli playback
+    yt-dlp # Video source extractor used by many streaming workflows
     libreoffice # Office suite
     gimp # Image editor
     ruffle # Flash content runtime (Adobe Flash replacement)

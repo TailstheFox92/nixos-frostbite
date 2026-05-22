@@ -234,6 +234,9 @@ in
     webp-pixbuf-loader
     brave
     firefox
+    ani-cli
+    mpv
+    yt-dlp
     libreoffice
     gimp
     alacritty
