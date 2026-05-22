@@ -51,6 +51,22 @@ let
     ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$file"
     ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
   '';
+  screenshotWindow = pkgs.writeShellScriptBin "screenshot-window" ''
+    #!/usr/bin/env sh
+    set -eu
+
+    dir="$HOME/Pictures/Screenshots"
+    ts="$(date +"%Y-%m-%d_%H-%M-%S")"
+    file="$dir/$ts.png"
+
+    mkdir -p "$dir"
+    geometry="$(${pkgs.sway}/bin/swaymsg -t get_tree | ${pkgs.jq}/bin/jq -r 'first(.. | objects | select(.focused? == true) | .rect | "\(.x),\(.y) \(.width)x\(.height)") // empty')"
+    [ -n "$geometry" ] || exit 0
+
+    ${pkgs.grim}/bin/grim -g "$geometry" "$file"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$file"
+    ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
+  '';
   waybarWeather = pkgs.writeShellScriptBin "waybar-weather" ''
     weather="$(${pkgs.curl}/bin/curl -fsS --max-time 6 'https://wttr.in/?format=%c+%f' 2>/dev/null || true)"
     if [ -n "$weather" ]; then
@@ -191,6 +207,7 @@ let
       "Print         Full screenshot" \
       "Shift+Print   Region screenshot" \
       "Ctrl+Print    Region screenshot + edit" \
+        "Alt+Print     Focused window screenshot" \
       "XF86 Audio/Brightness keys Media, volume, brightness" \
       | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Sway keybinds"
   '';
@@ -251,6 +268,7 @@ in
         "Print" = "exec ${screenshotFull}/bin/screenshot-full";
         "Shift+Print" = "exec ${screenshotRegion}/bin/screenshot-region";
         "Ctrl+Print" = "exec ${screenshotRegionEdit}/bin/screenshot-region-edit";
+        "Mod1+Print" = "exec ${screenshotWindow}/bin/screenshot-window";
         "${modifier}+Shift+q" = "kill";
       };
 
