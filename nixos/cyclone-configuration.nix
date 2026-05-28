@@ -22,7 +22,6 @@ let
       extraConfig = (prev.kernel.extraConfig or "") + ''
         HZ_1000 y
         SCHED_AUTOGROUP y
-        TRANSPARENT_HUGEPAGE_ALWAYS y
       '';
     };
   });

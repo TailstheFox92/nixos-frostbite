@@ -136,15 +136,15 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
+        AddKeysToAgent = "yes";
       };
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identitiesOnly = true;
-        identityFile = [ "~/.ssh/id_ed25519" ];
+        HostName = "github.com";
+        User = "git";
+        IdentitiesOnly = true;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
     };
   };
@@ -234,6 +234,7 @@ in
     webp-pixbuf-loader
     brave
     firefox
+    thunderbird
     ani-cli
     mpv
     yt-dlp

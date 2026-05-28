@@ -32,15 +32,15 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
+        AddKeysToAgent = "yes";
       };
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identitiesOnly = true;
-        identityFile = [ "~/.ssh/id_ed25519" ];
+        HostName = "github.com";
+        User = "git";
+        IdentitiesOnly = true;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
     };
   };
@@ -130,6 +130,7 @@
     webp-pixbuf-loader  # WEBP thumbnail support for GTK/GdkPixbuf apps
     brave  # Web browser
     firefox # Backup web browser for sites that don't work well with Brave
+    thunderbird # Email client
     ani-cli # Terminal anime streaming/downloader helper
     mpv # Video player used by ani-cli playback
     yt-dlp # Video source extractor used by many streaming workflows

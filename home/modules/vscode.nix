@@ -21,7 +21,6 @@ in
     mutableExtensionsDir = true;
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
-        ms-python.python
         ms-vscode.cpptools
         ms-dotnettools.csharp
         ms-dotnettools.csdevkit
